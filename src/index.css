@@ -1,3 +1,38 @@
+@import url("https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+/* Global reset */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  line-height: 1.5;
+  font-family: "Quantico", sans-serif;
+}
+
+ul {
+  padding-inline-start: 0;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
 :root {
-  background-color: aliceblue;
+  background-color: black;
+  color: whitesmoke;
 }
