@@ -1,8 +1,9 @@
 import { NavLink } from "react-router";
+import "./PageNavigation.css";
 
 export default function PageNavigation() {
   return (
-    <nav>
+    <nav className="page-navigation">
       <ul>
         <li>
           <NavLink to="/">Lobby</NavLink>
@@ -11,7 +12,7 @@ export default function PageNavigation() {
           <NavLink to="/mechanics">Mechanics</NavLink>
         </li>
         <li>
-          <NavLink to="/game-videopoker">Poker</NavLink>
+          <NavLink to="/game-videopoker">Play</NavLink>
         </li>
       </ul>
     </nav>
