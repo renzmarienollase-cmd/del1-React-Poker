@@ -11,9 +11,6 @@ export default function PageNavigation() {
         <li>
           <NavLink to="/mechanics">Mechanics</NavLink>
         </li>
-        <li>
-          <NavLink to="/game-videopoker">Play</NavLink>
-        </li>
       </ul>
     </nav>
   );

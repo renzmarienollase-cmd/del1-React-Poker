@@ -1,0 +1,40 @@
+.lobby-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+
+  ul {
+    list-style-type: none;
+    max-width: 40em;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      border: 1px solid whitesmoke;
+      min-width: 20rem;
+      padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+      max-height: fit-content;
+      align-items: center;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      padding: 0.5rem 2rem;
+    }
+
+    a:focus {
+      background-color: red;
+      color: black;
+    }
+
+    li:hover {
+      border: 1px solid red;
+      a {
+        background-color: red;
+        color: black;
+      }
+    }
+  }
+}
