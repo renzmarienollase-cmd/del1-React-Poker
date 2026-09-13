@@ -17,24 +17,27 @@ export default function PayoutTable() {
         <col span={1} className="payout5" />
       </colgroup>
       <thead>
-        <th scope="col">Win Combination</th>
-        <th scope="col">Payout Bet 1</th>
-        <th scope="col">Payout Bet 2</th>
-        <th scope="col">Payout Bet 3</th>
-        <th scope="col">Payout Bet 4</th>
-        <th scope="col">Payout Bet 5</th>
+        <tr>
+          <th scope="col">Win Combination</th>
+          <th scope="col">Payout Bet 1</th>
+          <th scope="col">Payout Bet 2</th>
+          <th scope="col">Payout Bet 3</th>
+          <th scope="col">Payout Bet 4</th>
+          <th scope="col">Payout Bet 5</th>
+        </tr>
       </thead>
-
-      {winCombinations.map((combination) => (
-        <tbody>
-          <th scope="row">{combination.name}</th>
-          <td>{combination.payout}</td>
-          <td>{combination.payout * 2}</td>
-          <td>{combination.payout * 3}</td>
-          <td>{combination.payout * 4}</td>
-          <td>{combination.payout * 5}</td>
-        </tbody>
-      ))}
+      <tbody>
+        {winCombinations.map((combination) => (
+          <tr key={combination.id}>
+            <th scope="row">{combination.name}</th>
+            <td>{combination.payout}</td>
+            <td>{combination.payout * 2}</td>
+            <td>{combination.payout * 3}</td>
+            <td>{combination.payout * 4}</td>
+            <td>{combination.payout * 5}</td>
+          </tr>
+        ))}
+      </tbody>
     </table>
   );
 }
