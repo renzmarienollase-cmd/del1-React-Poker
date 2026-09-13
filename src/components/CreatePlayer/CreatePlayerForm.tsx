@@ -13,7 +13,6 @@ export default function CreatePlayerForm() {
     };
 
     addPlayer(newPlayer);
-    console.log(newPlayer);
   }
 
   return (

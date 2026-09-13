@@ -2,8 +2,10 @@ import CreatePlayerForm from "./components/CreatePlayer/CreatePlayerForm";
 import { useGlobalStore } from "./Store";
 import "./App.css";
 import { NavLink } from "react-router";
+
 export default function App() {
   const players = useGlobalStore((store) => store.players);
+  console.log("inside App. players are", players);
 
   return (
     <section className="lobby-container">

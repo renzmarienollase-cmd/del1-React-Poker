@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 export type Player = {
   id: number;
@@ -14,19 +15,20 @@ export type Globals = {
   addPlayer: (newPlayer: Player) => void;
 };
 
-export const useGlobalStore = create<Globals>((set) => ({
-  playerCount: 1,
-  players: [
+export const useGlobalStore = create<Globals>()(
+  persist(
+    (set) => ({
+      playerCount: 0,
+      players: [],
+      addPlayer(newPlayer: Player) {
+        set((state) => ({
+          players: [...state.players, newPlayer],
+          playerCount: state.playerCount + 1,
+        }));
+      },
+    }),
     {
-      id: 1,
-      name: "Sample Player",
-      credits: 100,
+      name: "poker-storage",
     },
-  ],
-  addPlayer(newPlayer: Player) {
-    set((state) => ({
-      players: [...state.players, newPlayer],
-      playerCount: state.playerCount + 1,
-    }));
-  },
-}));
+  ),
+);
