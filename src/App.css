@@ -18,20 +18,20 @@
       align-items: center;
     }
 
-    a {
-      color: inherit;
+    button {
+      color: black;
       text-decoration: none;
       padding: 0.5rem 2rem;
     }
 
-    a:focus {
+    button:focus {
       background-color: red;
       color: black;
     }
 
     li:hover {
       border: 1px solid red;
-      a {
+      button {
         background-color: red;
         color: black;
       }
