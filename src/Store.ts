@@ -9,11 +9,13 @@ export type Player = {
 // types for other objects should be put here for later use in Globals
 
 export type Globals = {
+  playerCount: number;
   players: Player[];
   addPlayer: (newPlayer: Player) => void;
 };
 
 export const useGlobalStore = create<Globals>((set) => ({
+  playerCount: 1,
   players: [
     {
       id: 1,
@@ -21,9 +23,10 @@ export const useGlobalStore = create<Globals>((set) => ({
       credits: 100,
     },
   ],
-  addPlayer(newPlayer) {
+  addPlayer(newPlayer: Player) {
     set((state) => ({
       players: [...state.players, newPlayer],
+      playerCount: state.playerCount + 1,
     }));
   },
 }));

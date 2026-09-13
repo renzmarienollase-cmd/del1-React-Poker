@@ -3,16 +3,17 @@ import "./CreatePlayerForm.css";
 
 export default function CreatePlayerForm() {
   const addPlayer = useGlobalStore((store) => store.addPlayer);
-  const players = useGlobalStore((store) => store.players);
+  const playerCount = useGlobalStore((store) => store.playerCount);
 
   function handleSubmit(formData: FormData) {
     const newPlayer = {
-      id: players.length + 1,
+      id: playerCount + 1,
       name: String(formData.get("player-name")),
       credits: 100,
     };
 
     addPlayer(newPlayer);
+    console.log(newPlayer);
   }
 
   return (
