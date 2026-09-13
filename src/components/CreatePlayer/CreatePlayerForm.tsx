@@ -1,3 +1,5 @@
+// This component allows users to create a new player.
+
 import { useGlobalStore } from "../../Store";
 import "./CreatePlayerForm.css";
 

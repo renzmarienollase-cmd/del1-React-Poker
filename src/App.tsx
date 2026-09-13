@@ -1,12 +1,10 @@
 import CreatePlayerForm from "./components/CreatePlayer/CreatePlayerForm";
 import { useGlobalStore } from "./Store";
 import "./App.css";
-import { useNavigate } from "react-router";
+import PlayButton from "./components/PlayButton/PlayButton";
 
 export default function App() {
   const players = useGlobalStore((store) => store.players);
-
-  let navigate = useNavigate();
 
   return (
     <section className="lobby-container">
@@ -22,7 +20,7 @@ export default function App() {
           players.map((player) => (
             <li key={player.id}>
               <span>{player.name}</span>
-              <button onClick={() => navigate("/game-videopoker")}>Play</button>
+              <PlayButton player={player} />
             </li>
           ))
         )}
