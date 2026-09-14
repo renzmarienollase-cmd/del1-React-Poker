@@ -1,0 +1,9 @@
+h1,
+h2 {
+  margin: 0;
+}
+
+.player-profile {
+  display: flex;
+  justify-content: space-between;
+}

@@ -1,3 +1,8 @@
 section {
   text-align: center;
 }
+
+.player-hand {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
