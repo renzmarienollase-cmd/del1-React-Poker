@@ -16,8 +16,8 @@ export default function App() {
       <h1>Welcome!</h1>
       <h2>Create a player</h2>
       <CreatePlayerForm />
-      <span> OR </span>
-      <h2>Choose a player</h2>
+      <h2>Players</h2>
+      <p>Choose your player</p>
       <ul>
         {players.length === 0 ? (
           <span>No players to display. Create a player!</span>
