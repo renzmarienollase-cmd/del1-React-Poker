@@ -12,7 +12,7 @@ export default function App() {
   }
 
   return (
-    <section className="lobby-container">
+    <main className="lobby-container">
       <h1>Welcome!</h1>
       <h2>Create a player</h2>
       <CreatePlayerForm />
@@ -39,6 +39,6 @@ export default function App() {
           ))
         )}
       </ul>
-    </section>
+    </main>
   );
 }

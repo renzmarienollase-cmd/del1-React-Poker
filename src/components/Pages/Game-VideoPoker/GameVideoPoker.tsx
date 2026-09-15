@@ -7,7 +7,7 @@ export default function GameVideoPoker() {
   );
 
   return (
-    <>
+    <main>
       <h1>Video Poker</h1>
       <div className="player-profile">
         <h2>Player: {activePlayer.name}</h2>
@@ -15,6 +15,6 @@ export default function GameVideoPoker() {
       </div>
 
       <Game />
-    </>
+    </main>
   );
 }

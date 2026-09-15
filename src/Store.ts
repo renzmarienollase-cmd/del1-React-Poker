@@ -28,10 +28,10 @@ export type PlayerHand = {
 export type Globals = {
   playerCount: number;
   players: Player[];
-  addPlayer: (newPlayer: Player) => void;
-
   winCombination: WinCombination[];
   deckCards: DeckCard[];
+
+  addPlayer: (newPlayer: Player) => void;
   deletePlayer: (playerId: number) => void;
 };
 
@@ -40,12 +40,6 @@ export const useGlobalStore = create<Globals>()(
     (set) => ({
       playerCount: 0,
       players: [],
-      addPlayer(newPlayer: Player) {
-        set((state) => ({
-          players: [...state.players, newPlayer],
-          playerCount: state.playerCount + 1,
-        }));
-      },
       winCombination: [
         { id: 1, name: "Royal Flush", payout: 250 },
         { id: 2, name: "Straight Flush", payout: 50 },
@@ -114,6 +108,12 @@ export const useGlobalStore = create<Globals>()(
         { id: 51, suite: "club", value: 12 },
         { id: 52, suite: "club", value: 13 },
       ],
+      addPlayer(newPlayer: Player) {
+        set((state) => ({
+          players: [...state.players, newPlayer],
+          playerCount: state.playerCount + 1,
+        }));
+      },
       deletePlayer(playerId) {
         set((state) => ({
           players: state.players.filter((player) => player.id !== playerId),

@@ -11,6 +11,10 @@ export default function Game() {
   const [currentDeckCards, setCurrentDeckCards] = useState(deckCards);
   const [playerHand, setPlayerHand] = useState<DeckCard[]>([]);
 
+  // TO DO
+  // use const heldCards = playerHand.filter...isHeld true blabla to filter cards that are "held" by the player
+  // use splice to insert new cards into player hand using the index of the cards that were removed
+
   function handleClickBet() {
     if (currentBet < 5) {
       setCurrentBet(currentBet + 1);
@@ -52,7 +56,10 @@ export default function Game() {
       </button>
       <div className="player-hand">
         {playerHand.map((card) => (
-          <Card key={card.id} suite={card.suite} value={card.value} />
+          <div>
+            <Card key={card.id} suite={card.suite} value={card.value} />
+            <button type="button">Hold</button>
+          </div>
         ))}
       </div>
     </section>

@@ -3,7 +3,7 @@ import "./Mechanics.css";
 
 export default function Mechanics() {
   return (
-    <section className="mechanics-page">
+    <main className="mechanics-page">
       <h1>How to play Video Poker</h1>
       <ol>
         <li>
@@ -56,6 +56,6 @@ export default function Mechanics() {
         <li>https://gamerules.com/rules/video-poker/</li>
         <li>https://www.freeslots.com/poker.htm</li>
       </ul>
-    </section>
+    </main>
   );
 }

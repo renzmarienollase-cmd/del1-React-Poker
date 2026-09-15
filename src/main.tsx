@@ -11,7 +11,7 @@ import Container from "./components/Container/Container.tsx";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
-      <Container as="main">
+      <Container as="div">
         <PageNavigation />
         <Routes>
           <Route path="/" element={<App />} />
