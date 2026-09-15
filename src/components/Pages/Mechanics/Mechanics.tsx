@@ -1,13 +1,14 @@
 import PayoutTable from "../../PayoutTable/PayoutTable";
+import "./Mechanics.css";
 
 export default function Mechanics() {
   return (
-    <>
+    <section className="mechanics-page">
       <h1>How to play Video Poker</h1>
       <ol>
         <li>
           Place your bet. Your starting bet is 1 and can be increased using the
-          increase button. Mximum bet is 5.
+          increase button. Maximum bet is 5.
         </li>
         <li>
           Start the round by clicking “Start”. The game will deal you your first
@@ -48,13 +49,13 @@ export default function Mechanics() {
 
       <h2>The Maker</h2>
       <p>
-        This game was created by Renz Marie Nollase.With references and
+        This game was created by Renz Marie Nollase. With references and
         inspiration from:
       </p>
       <ul>
         <li>https://gamerules.com/rules/video-poker/</li>
         <li>https://www.freeslots.com/poker.htm</li>
       </ul>
-    </>
+    </section>
   );
 }

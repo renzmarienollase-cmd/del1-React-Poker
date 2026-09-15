@@ -1,0 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap");
+
+.mechanics-page {
+  li,
+  p {
+    font-family: "Schibsted Grotesk", sans-serif;
+  }
+}
