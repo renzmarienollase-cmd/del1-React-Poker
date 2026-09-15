@@ -1,0 +1,11 @@
+button {
+  color: black;
+  text-decoration: none;
+  padding: 0.5rem 2rem;
+}
+
+button:focus,
+button:hover {
+  background-color: red;
+  color: black;
+}
