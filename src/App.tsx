@@ -5,6 +5,11 @@ import PlayButton from "./components/PlayButton/PlayButton";
 
 export default function App() {
   const players = useGlobalStore((store) => store.players);
+  const deletePlayer = useGlobalStore((store) => store.deletePlayer);
+
+  function handleClickDelete(playerId: number) {
+    deletePlayer(playerId);
+  }
 
   return (
     <section className="lobby-container">
@@ -20,7 +25,16 @@ export default function App() {
           players.map((player) => (
             <li key={player.id}>
               <span>{player.name}</span>
-              <PlayButton player={player} />
+              <div>
+                <PlayButton player={player} />
+                <button
+                  className="tertiary-button"
+                  type="button"
+                  onClick={() => handleClickDelete(player.id)}
+                >
+                  Delete
+                </button>
+              </div>
             </li>
           ))
         )}

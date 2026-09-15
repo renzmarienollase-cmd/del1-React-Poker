@@ -13,5 +13,9 @@ export default function PlayButton({ player }: { player: Player }) {
     navigate("/game-videopoker");
   }
 
-  return <button onClick={handleClick}>Play</button>;
+  return (
+    <button className="primary-button" onClick={handleClick}>
+      Play
+    </button>
+  );
 }

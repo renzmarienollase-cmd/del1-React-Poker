@@ -13,6 +13,7 @@ export type Globals = {
   playerCount: number;
   players: Player[];
   addPlayer: (newPlayer: Player) => void;
+  deletePlayer: (playerId: number) => void;
 };
 
 export const useGlobalStore = create<Globals>()(
@@ -24,6 +25,12 @@ export const useGlobalStore = create<Globals>()(
         set((state) => ({
           players: [...state.players, newPlayer],
           playerCount: state.playerCount + 1,
+        }));
+      },
+      deletePlayer(playerId) {
+        set((state) => ({
+          players: state.players.filter((player) => player.id !== playerId),
+          playerCount: state.playerCount - 1,
         }));
       },
     }),
