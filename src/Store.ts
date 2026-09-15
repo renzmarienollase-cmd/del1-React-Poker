@@ -32,6 +32,7 @@ export type Globals = {
 
   winCombination: WinCombination[];
   deckCards: DeckCard[];
+  deletePlayer: (playerId: number) => void;
 };
 
 export const useGlobalStore = create<Globals>()(
@@ -113,6 +114,12 @@ export const useGlobalStore = create<Globals>()(
         { id: 51, suite: "club", value: 12 },
         { id: 52, suite: "club", value: 13 },
       ],
+      deletePlayer(playerId) {
+        set((state) => ({
+          players: state.players.filter((player) => player.id !== playerId),
+          playerCount: state.playerCount - 1,
+        }));
+      },
     }),
     {
       name: "poker-storage",
