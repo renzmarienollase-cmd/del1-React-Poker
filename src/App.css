@@ -1,0 +1,50 @@
+.lobby-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1rem;
+
+  h2,
+  h3 {
+    margin: 0;
+  }
+  ul {
+    list-style-type: none;
+    inline-size: min(352px, 96%);
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      border-collapse: collapse;
+      border: 1px solid whitesmoke;
+      min-width: 20rem;
+      padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+      max-height: fit-content;
+      align-items: center;
+    }
+
+    li:hover {
+      border: 1px solid red;
+    }
+  }
+
+  .tertiary-button {
+    background-color: transparent;
+    color: inherit;
+    border: 2px solid black;
+    font-style: italic;
+    padding: 0.5rem 1rem;
+  }
+
+  .tertiary-button:focus,
+  .tertiary-button:hover {
+    border-collapse: collapse;
+    border: 2px solid red;
+    color: red;
+  }
+
+  p {
+    margin: 0;
+  }
+}

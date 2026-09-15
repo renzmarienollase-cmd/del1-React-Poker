@@ -19,7 +19,8 @@
     }
   }
 
-  a:hover {
+  a:hover,
+  a:focus {
     background-color: red;
   }
 }
