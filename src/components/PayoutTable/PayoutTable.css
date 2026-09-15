@@ -1,0 +1,19 @@
+th,
+td {
+  padding: 4px 8px;
+}
+
+td {
+  text-align: center;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid white;
+  width: 100%;
+}
+
+th:not(:last-child),
+td:not(:last-child) {
+  border-right: 2px solid white;
+}
