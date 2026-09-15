@@ -5,4 +5,13 @@
   p {
     font-family: "Schibsted Grotesk", sans-serif;
   }
+
+  ol {
+    padding: 0;
+    list-style-position: outside;
+  }
+
+  li {
+    margin: 0.5rem 4rem;
+  }
 }
