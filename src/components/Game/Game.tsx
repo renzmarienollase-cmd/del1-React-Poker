@@ -33,8 +33,14 @@ export default function Game() {
 
   function handleClickDeal() {
     const shuffledDeckCards = shuffleDeckCards();
+    const newPlayerHand = shuffledDeckCards.slice(0, 5);
+    const remainingDeckCards = shuffledDeckCards.splice(
+      5,
+      shuffledDeckCards.length,
+    );
 
-    setCurrentDeckCards(shuffledDeckCards);
+    setPlayerHand(newPlayerHand);
+    setCurrentDeckCards(remainingDeckCards);
   }
 
   return (
@@ -45,7 +51,7 @@ export default function Game() {
         Deal
       </button>
       <div className="player-hand">
-        {currentDeckCards.map((card) => (
+        {playerHand.map((card) => (
           <Card key={card.id} suite={card.suite} value={card.value} />
         ))}
       </div>
