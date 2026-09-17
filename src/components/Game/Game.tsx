@@ -1,10 +1,11 @@
-import CurrentBet from "../CurrentBet/CurrentBet";
-import PayoutTable from "../PayoutTable/PayoutTable";
+//import CurrentBet from "../CurrentBet/CurrentBet";
+//import PayoutTable from "../PayoutTable/PayoutTable";
 import { useState } from "react";
 import "./Game.css";
 import { useGlobalStore } from "../../Store";
-import PokerHand from "../PokerHand/PokerHand";
+import Card from "../Card/Card";
 import type { PokerHandCard } from "../../Store";
+import PokerHand from "../PokerHand/PokerHand";
 
 export default function Game() {
   const deckCards = useGlobalStore((store) => store.deckCards);
@@ -14,19 +15,19 @@ export default function Game() {
   const shuffledDeckCards = shuffle();
   const [currentDeckCards, setCurrentDeckCards] = useState(shuffledDeckCards);
 
-  const [currentBet, setCurrentBet] = useState<number>(1);
+  //const [currentBet, setCurrentBet] = useState<number>(1);
 
   // TO DO
   // use const heldCards = pokerHand.filter...isHeld true blabla to filter cards that are "held" by the player
   // use splice to insert new cards into player hand using the index of the cards that were removed
 
-  function handleClickBet() {
+  /*   function handleClickBet() {
     if (currentBet < 5) {
       setCurrentBet(currentBet + 1);
     } else if (currentBet === 5) {
       setCurrentBet(1);
     }
-  }
+  } */
 
   // Shuffling code source: https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
   function shuffle() {
@@ -57,12 +58,22 @@ export default function Game() {
 
   return (
     <section>
-      <PayoutTable />
-      <CurrentBet betValue={currentBet} onBetClick={handleClickBet} />
+      {/* <PayoutTable /> */}
+      {/*       <CurrentBet betValue={currentBet} onBetClick={handleClickBet} /> */}
       <button type="button" onClick={handleClickDeal}>
         Deal
       </button>
-      <PokerHand />
+      {pokerHand.length === 0 ? (
+        <div className="poker-hand">
+          <Card variant="back" />
+          <Card variant="back" />
+          <Card variant="back" />
+          <Card variant="back" />
+          <Card variant="back" />
+        </div>
+      ) : (
+        <PokerHand />
+      )}
     </section>
   );
 }
