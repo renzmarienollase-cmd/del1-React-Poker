@@ -1,16 +1,25 @@
 import "./Card.css";
 
 type CardProps = {
-  suite: string;
-  value: number;
+  variant: "front" | "back";
+  suite?: string;
+  value?: number;
+  isHeld?: boolean;
 };
 
-export default function Card({ suite, value }: CardProps) {
+export default function Card({ variant, suite, value, isHeld }: CardProps) {
   return (
-    <article>
-      <h3>
-        This is a {value} of {suite}
-      </h3>
+    <article className={variant}>
+      {variant !== "front" ? (
+        <></>
+      ) : (
+        <div>
+          {!isHeld ? <></> : <span>Held</span>}
+          <h3>
+            This is a {value} of {suite}
+          </h3>
+        </div>
+      )}
     </article>
   );
 }

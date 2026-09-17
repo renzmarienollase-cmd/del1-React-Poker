@@ -1,14 +1,15 @@
-import Card from "../Card/Card";
 import CurrentBet from "../CurrentBet/CurrentBet";
 import PayoutTable from "../PayoutTable/PayoutTable";
 import { useState } from "react";
 import "./Game.css";
 import { useGlobalStore } from "../../Store";
+import PokerHand from "../PokerHand/PokerHand";
+import type { PokerHandCard } from "../../Store";
 
 export default function Game() {
   const deckCards = useGlobalStore((store) => store.deckCards);
-  const playerHand = useGlobalStore((store) => store.playerHand);
-  const setPlayerHand = useGlobalStore((store) => store.setPlayerHand);
+  const pokerHand = useGlobalStore((store) => store.pokerHand);
+  const setpokerHand = useGlobalStore((store) => store.setPokerHand);
 
   const shuffledDeckCards = shuffle();
   const [currentDeckCards, setCurrentDeckCards] = useState(shuffledDeckCards);
@@ -16,7 +17,7 @@ export default function Game() {
   const [currentBet, setCurrentBet] = useState<number>(1);
 
   // TO DO
-  // use const heldCards = playerHand.filter...isHeld true blabla to filter cards that are "held" by the player
+  // use const heldCards = pokerHand.filter...isHeld true blabla to filter cards that are "held" by the player
   // use splice to insert new cards into player hand using the index of the cards that were removed
 
   function handleClickBet() {
@@ -40,14 +41,16 @@ export default function Game() {
   }
 
   function handleClickDeal() {
-    if (playerHand.length === 0) {
-      const newPlayerHand = currentDeckCards.slice(0, 5);
-      const remainingDeckCards = currentDeckCards.splice(
-        5,
-        currentDeckCards.length,
-      );
+    if (pokerHand.length === 0) {
+      const newCards = currentDeckCards.slice(0, 5);
+      const remainingDeckCards = currentDeckCards.slice(5);
 
-      setPlayerHand(newPlayerHand);
+      const newPokerHand: PokerHandCard[] = newCards.map((card) => ({
+        card: card,
+        isHeld: false,
+      }));
+
+      setpokerHand(newPokerHand);
       setCurrentDeckCards(remainingDeckCards);
     }
   }
@@ -59,18 +62,7 @@ export default function Game() {
       <button type="button" onClick={handleClickDeal}>
         Deal
       </button>
-      <div className="player-hand">
-        {playerHand.length === 0 ? (
-          <span>No hand to display.</span>
-        ) : (
-          playerHand.map((card) => (
-            <div key={card.id}>
-              <Card suite={card.suite} value={card.value} />
-              <button type="button">Hold</button>
-            </div>
-          ))
-        )}
-      </div>
+      <PokerHand />
     </section>
   );
 }

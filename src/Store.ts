@@ -19,8 +19,9 @@ export type DeckCard = {
   value: number;
 };
 
-export type PlayerHand = {
-  playerHand: DeckCard[];
+export type PokerHandCard = {
+  card: DeckCard;
+  isHeld: boolean;
 };
 
 // types for other objects should be put here for later use in Globals
@@ -30,11 +31,11 @@ export type Globals = {
   players: Player[];
   winCombination: WinCombination[];
   deckCards: DeckCard[];
-  playerHand: DeckCard[];
+  pokerHand: PokerHandCard[];
 
   addPlayer: (newPlayer: Player) => void;
   deletePlayer: (playerId: number) => void;
-  setPlayerHand: (newHand: DeckCard[]) => void;
+  setPokerHand: (newHand: PokerHandCard[]) => void;
 };
 
 export const useGlobalStore = create<Globals>()(
@@ -110,7 +111,7 @@ export const useGlobalStore = create<Globals>()(
         { id: 51, suite: "club", value: 12 },
         { id: 52, suite: "club", value: 13 },
       ],
-      playerHand: [],
+      pokerHand: [],
       addPlayer(newPlayer: Player) {
         set((state) => ({
           players: [...state.players, newPlayer],
@@ -123,9 +124,9 @@ export const useGlobalStore = create<Globals>()(
           playerCount: state.playerCount - 1,
         }));
       },
-      setPlayerHand(newHand) {
+      setPokerHand(newHand) {
         set({
-          playerHand: newHand,
+          pokerHand: newHand,
         });
       },
     }),

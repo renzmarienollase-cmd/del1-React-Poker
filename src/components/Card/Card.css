@@ -1,0 +1,11 @@
+.back {
+  display: block;
+  width: 1fr;
+  height: 16rem;
+  background-color: blue;
+  border: 1px solid white;
+}
+
+.front {
+  background-color: aquamarine;
+}
