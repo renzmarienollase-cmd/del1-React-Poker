@@ -4,7 +4,6 @@ import { useState } from "react";
 import "./Game.css";
 import { useGlobalStore } from "../../Store";
 import Card from "../Card/Card";
-import type { PokerHandCard } from "../../Store";
 import PokerHand from "../PokerHand/PokerHand";
 
 export default function Game() {
@@ -46,13 +45,34 @@ export default function Game() {
       const newCards = currentDeckCards.slice(0, 5);
       const remainingDeckCards = currentDeckCards.slice(5);
 
-      const newPokerHand: PokerHandCard[] = newCards.map((card) => ({
+      const newPokerHand = newCards.map((card) => ({
         card: card,
         isHeld: false,
       }));
 
       setpokerHand(newPokerHand);
       setCurrentDeckCards(remainingDeckCards);
+    } else {
+      // Replace/Deal new cards
+
+      //pokerHand
+      const newPokerHand = pokerHand.map((hand) => {
+        if (hand.isHeld === false) {
+          const newCard = {
+            card: currentDeckCards.splice(0, 1)[0],
+            isHeld: false,
+          };
+
+          const remainingDeckCards = currentDeckCards.slice(1);
+
+          setCurrentDeckCards(remainingDeckCards);
+          return newCard;
+        } else {
+          return hand;
+        }
+      });
+
+      setpokerHand(newPokerHand);
     }
   }
 
