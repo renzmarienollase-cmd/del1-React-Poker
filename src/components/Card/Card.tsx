@@ -1,13 +1,28 @@
+import { useGlobalStore } from "../../Store";
 import "./Card.css";
 
 type CardProps = {
   variant: "front" | "back";
+  id?: number;
   suite?: string;
   value?: number;
   isHeld?: boolean;
 };
 
-export default function Card({ variant, suite, value, isHeld }: CardProps) {
+export default function Card({ id, variant, suite, value, isHeld }: CardProps) {
+  const pokerHand = useGlobalStore((store) => store.pokerHand);
+  const setPokerHand = useGlobalStore((store) => store.setPokerHand);
+
+  function toggleHeld() {
+    const newPokerHand = pokerHand.map((handCard) =>
+      handCard.card.id === id
+        ? { ...handCard, isHeld: !handCard.isHeld }
+        : handCard,
+    );
+
+    setPokerHand(newPokerHand);
+  }
+
   return (
     <article className="hand-card">
       {!isHeld ? (
@@ -28,7 +43,7 @@ export default function Card({ variant, suite, value, isHeld }: CardProps) {
       {variant !== "front" ? (
         <></>
       ) : (
-        <button type="button">
+        <button type="button" onClick={toggleHeld}>
           {!isHeld ? <span>Hold</span> : <span>Release</span>}
         </button>
       )}

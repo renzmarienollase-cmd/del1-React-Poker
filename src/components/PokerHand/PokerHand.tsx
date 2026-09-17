@@ -9,6 +9,7 @@ export default function PokerHand() {
       {pokerHand.map((hand) => (
         <Card
           key={hand.card.id}
+          id={hand.card.id}
           variant="front"
           suite={hand.card.suite}
           value={hand.card.value}
