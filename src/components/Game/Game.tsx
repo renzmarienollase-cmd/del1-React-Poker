@@ -13,6 +13,7 @@ export default function Game() {
 
   const shuffledDeckCards = shuffle();
   const [currentDeckCards, setCurrentDeckCards] = useState(shuffledDeckCards);
+  const [dealCount, setDeadlCount] = useState(0);
 
   //const [currentBet, setCurrentBet] = useState<number>(1);
 
@@ -41,6 +42,7 @@ export default function Game() {
   }
 
   function handleClickDeal() {
+    debugger;
     if (pokerHand.length === 0) {
       const newCards = currentDeckCards.slice(0, 5);
       const remainingDeckCards = currentDeckCards.slice(5);
@@ -52,10 +54,9 @@ export default function Game() {
 
       setpokerHand(newPokerHand);
       setCurrentDeckCards(remainingDeckCards);
+      setDeadlCount(dealCount + 1);
+      console.log(dealCount);
     } else {
-      // Replace/Deal new cards
-
-      //pokerHand
       const newPokerHand = pokerHand.map((hand) => {
         if (hand.isHeld === false) {
           const newCard = {
@@ -73,6 +74,8 @@ export default function Game() {
       });
 
       setpokerHand(newPokerHand);
+      setDeadlCount(dealCount + 1);
+      console.log(dealCount);
     }
   }
 
