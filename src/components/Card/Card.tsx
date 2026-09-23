@@ -1,4 +1,4 @@
-import { useGlobalStore } from "../../Store";
+import { useGlobalStore } from "../../Stores";
 import "./Card.css";
 
 type CardProps = {

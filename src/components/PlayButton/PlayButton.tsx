@@ -1,6 +1,6 @@
 import "./PlayButton.css";
 import { useNavigate } from "react-router";
-import type { Player } from "../../Store";
+import type { Player } from "../../Stores";
 
 export default function PlayButton({ player }: { player: Player }) {
   let navigate = useNavigate();

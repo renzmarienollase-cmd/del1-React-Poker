@@ -1,33 +1,50 @@
-//import CurrentBet from "../CurrentBet/CurrentBet";
-//import PayoutTable from "../PayoutTable/PayoutTable";
+import CurrentBet from "../CurrentBet/CurrentBet";
+import PayoutTable from "../PayoutTable/PayoutTable";
+import Container from "../Container/Container";
 import { useState } from "react";
 import "./Game.css";
-import { useGlobalStore } from "../../Store";
+import { useGlobalStore } from "../../Stores";
 import Card from "../Card/Card";
 import PokerHand from "../PokerHand/PokerHand";
+import {
+  setHasJacksorBetter,
+  setHasAPair,
+  setHasTwoPairs,
+  setHasThreeOfAKind,
+  setIsAStraight,
+  setIsAFlush,
+  setHasFourOfAKind,
+  setIsARoyal,
+} from "../../functions/winChecks";
+import type { DeckCard, PokerHandCard, WinCondition } from "../../Stores";
 
 export default function Game() {
-  const deckCards = useGlobalStore((store) => store.deckCards);
-  const pokerHand = useGlobalStore((store) => store.pokerHand);
-  const setpokerHand = useGlobalStore((store) => store.setPokerHand);
+  const { deckCards, pokerHand, setPokerHand } = useGlobalStore();
+  // These are block-scoped variables? What are those?
+  const winConditionsList = useGlobalStore((store) => store.winConditionsList);
+  const setPlayerCredits = useGlobalStore((store) => store.setPlayerCredits);
 
+  const activePlayer = JSON.parse(
+    String(sessionStorage.getItem("activePlayer")),
+  );
   const shuffledDeckCards = shuffle();
+
   const [currentDeckCards, setCurrentDeckCards] = useState(shuffledDeckCards);
-  const [dealCount, setDeadlCount] = useState(0);
+  const [dealCount, setDealCount] = useState(0);
+  const [currentBet, setCurrentBet] = useState<number>(1);
+  const [winCondition, setwinCondition] = useState<WinCondition>({
+    id: 0,
+    name: "No win",
+    payout: 0,
+  });
 
-  //const [currentBet, setCurrentBet] = useState<number>(1);
-
-  // TO DO
-  // use const heldCards = pokerHand.filter...isHeld true blabla to filter cards that are "held" by the player
-  // use splice to insert new cards into player hand using the index of the cards that were removed
-
-  /*   function handleClickBet() {
+  function handleClickBet() {
     if (currentBet < 5) {
       setCurrentBet(currentBet + 1);
     } else if (currentBet === 5) {
       setCurrentBet(1);
     }
-  } */
+  }
 
   // Shuffling code source: https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
   function shuffle() {
@@ -41,8 +58,76 @@ export default function Game() {
     return shuffled;
   }
 
+  function determineWinCondition(pokerHand: PokerHandCard[]) {
+    const cards: DeckCard[] = pokerHand.map((hand) => hand.card);
+
+    const hasJacksorBetter = setHasJacksorBetter(cards);
+    const hasAPair = setHasAPair(cards);
+    const hasTwoPairs = setHasTwoPairs(cards);
+    const hasThreeOfAKind = setHasThreeOfAKind(cards);
+    const isAStraight = setIsAStraight(cards);
+    const isAFlush = setIsAFlush(cards);
+    const hasFourOfAKind = setHasFourOfAKind(cards);
+    const isARoyal = setIsARoyal(cards);
+
+    if (isARoyal === true && isAFlush === true) {
+      const condition = winConditionsList.find((item) => item.id === 1);
+
+      if (condition) {
+        setwinCondition(condition);
+      }
+    } else if (isAStraight === true && isAFlush === true) {
+      const condition = winConditionsList.find((item) => item.id === 2);
+
+      if (condition) {
+        setwinCondition(condition);
+      }
+    } else if (hasFourOfAKind === true) {
+      const condition = winConditionsList.find((item) => item.id === 3);
+
+      if (condition) {
+        setwinCondition(condition);
+      }
+    } else if (hasThreeOfAKind === true && hasAPair === true) {
+      const condition = winConditionsList.find((item) => item.id === 4);
+
+      if (condition) {
+        setwinCondition(condition);
+      }
+    } else if (isAFlush === true) {
+      const condition = winConditionsList.find((item) => item.id === 5);
+
+      if (condition) {
+        setwinCondition(condition);
+      }
+    } else if (isAStraight === true) {
+      const condition = winConditionsList.find((item) => item.id === 6);
+
+      if (condition) {
+        setwinCondition(condition);
+      }
+    } else if (hasThreeOfAKind === true) {
+      const condition = winConditionsList.find((item) => item.id === 7);
+
+      if (condition) {
+        setwinCondition(condition);
+      }
+    } else if (hasTwoPairs === true) {
+      const condition = winConditionsList.find((item) => item.id === 8);
+
+      if (condition) {
+        setwinCondition(condition);
+      }
+    } else if (hasJacksorBetter === true) {
+      const condition = winConditionsList.find((item) => item.id === 9);
+
+      if (condition) {
+        setwinCondition(condition);
+      }
+    }
+  }
+
   function handleClickDeal() {
-    debugger;
     if (pokerHand.length === 0) {
       const newCards = currentDeckCards.slice(0, 5);
       const remainingDeckCards = currentDeckCards.slice(5);
@@ -52,10 +137,9 @@ export default function Game() {
         isHeld: false,
       }));
 
-      setpokerHand(newPokerHand);
+      setPokerHand(newPokerHand);
       setCurrentDeckCards(remainingDeckCards);
-      setDeadlCount(dealCount + 1);
-      console.log(dealCount);
+      determineWinCondition(newPokerHand);
     } else {
       const newPokerHand = pokerHand.map((hand) => {
         if (hand.isHeld === false) {
@@ -73,19 +157,32 @@ export default function Game() {
         }
       });
 
-      setpokerHand(newPokerHand);
-      setDeadlCount(dealCount + 1);
-      console.log(dealCount);
+      setPokerHand(newPokerHand);
+      determineWinCondition(newPokerHand);
+    }
+
+    if (dealCount < 2) {
+      setDealCount(dealCount + 1);
+    } else if (dealCount === 2) {
+      setDealCount(0);
+    }
+
+    if (winCondition && dealCount === 2) {
+      const addCredits = winCondition.payout * currentBet;
+      const newPokerHand: PokerHandCard[] = [];
+      setPlayerCredits(activePlayer.id, addCredits);
+      setPokerHand(newPokerHand);
     }
   }
 
   return (
-    <section>
-      {/* <PayoutTable /> */}
-      {/*       <CurrentBet betValue={currentBet} onBetClick={handleClickBet} /> */}
+    <Container as="section">
+      <PayoutTable />
+      <CurrentBet betValue={currentBet} onBetClick={handleClickBet} />
       <button type="button" onClick={handleClickDeal}>
         Deal
       </button>
+      {winCondition ? <p>{winCondition.name}</p> : <p>no win</p>}
       {pokerHand.length === 0 ? (
         <div className="poker-hand">
           <Card variant="back" />
@@ -97,6 +194,6 @@ export default function Game() {
       ) : (
         <PokerHand />
       )}
-    </section>
+    </Container>
   );
 }

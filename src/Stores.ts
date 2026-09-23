@@ -7,7 +7,7 @@ export type Player = {
   credits: number;
 };
 
-export type WinCombination = {
+export type WinCondition = {
   id: number;
   name: string;
   payout: number;
@@ -29,13 +29,14 @@ export type PokerHandCard = {
 export type Globals = {
   playerCount: number;
   players: Player[];
-  winCombination: WinCombination[];
+  winConditionsList: WinCondition[];
   deckCards: DeckCard[];
   pokerHand: PokerHandCard[];
 
   addPlayer: (newPlayer: Player) => void;
   deletePlayer: (playerId: number) => void;
   setPokerHand: (newHand: PokerHandCard[]) => void;
+  setPlayerCredits: (id: number, addCredits: number) => void;
 };
 
 export const useGlobalStore = create<Globals>()(
@@ -43,7 +44,7 @@ export const useGlobalStore = create<Globals>()(
     (set) => ({
       playerCount: 0,
       players: [],
-      winCombination: [
+      winConditionsList: [
         { id: 1, name: "Royal Flush", payout: 250 },
         { id: 2, name: "Straight Flush", payout: 50 },
         { id: 3, name: "Four of a Kind", payout: 25 },
@@ -51,7 +52,7 @@ export const useGlobalStore = create<Globals>()(
         { id: 5, name: "Flush", payout: 6 },
         { id: 6, name: "Straight", payout: 4 },
         { id: 7, name: "Three of a kind", payout: 3 },
-        { id: 8, name: "Two Pair", payout: 2 },
+        { id: 8, name: "Two Pairs", payout: 2 },
         { id: 9, name: "Jacks or Better", payout: 1 },
       ],
       deckCards: [
@@ -129,9 +130,17 @@ export const useGlobalStore = create<Globals>()(
           pokerHand: newHand,
         });
       },
+      setPlayerCredits: (id, addCredits) =>
+        set((state) => ({
+          players: state.players.map((player) =>
+            player.id === id
+              ? { ...player, credits: player.credits + addCredits }
+              : player,
+          ),
+        })),
     }),
     {
-      name: "poker-storage",
+      name: "poker-loc-storage",
     },
   ),
 );

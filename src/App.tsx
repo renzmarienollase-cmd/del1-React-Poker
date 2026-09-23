@@ -1,5 +1,5 @@
 import CreatePlayerForm from "./components/CreatePlayer/CreatePlayerForm";
-import { useGlobalStore } from "./Store";
+import { useGlobalStore } from "./Stores";
 import "./App.css";
 import PlayButton from "./components/PlayButton/PlayButton";
 

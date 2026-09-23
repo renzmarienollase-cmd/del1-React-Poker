@@ -1,4 +1,4 @@
-import { useGlobalStore } from "../../Store";
+import { useGlobalStore } from "../../Stores";
 import "./PokerHand.css";
 import Card from "../Card/Card";
 

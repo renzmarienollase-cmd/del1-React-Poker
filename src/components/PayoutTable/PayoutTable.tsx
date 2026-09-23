@@ -1,9 +1,9 @@
 // This component creates the Payout Table on the Game page. The table takes information about the winning combinations from global store.
 
-import { useGlobalStore } from "../../Store";
+import { useGlobalStore } from "../../Stores";
 import "./PayoutTable.css";
 export default function PayoutTable() {
-  const winCombinations = useGlobalStore((store) => store.winCombination);
+  const winConditions = useGlobalStore((store) => store.winConditionsList);
 
   return (
     <table>
@@ -27,7 +27,7 @@ export default function PayoutTable() {
         </tr>
       </thead>
       <tbody>
-        {winCombinations.map((combination) => (
+        {winConditions.map((combination) => (
           <tr key={combination.id}>
             <th scope="row">{combination.name}</th>
             <td>{combination.payout}</td>
