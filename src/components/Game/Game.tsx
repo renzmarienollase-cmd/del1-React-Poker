@@ -24,20 +24,27 @@ export default function Game() {
   const winConditionsList = useGlobalStore((store) => store.winConditionsList);
   const setPlayerCredits = useGlobalStore((store) => store.setPlayerCredits);
 
-  const activePlayer = JSON.parse(
-    String(sessionStorage.getItem("activePlayer")),
-  );
+  const sessionId = sessionStorage.getItem("activePlayer");
+
+  const id = Number(sessionId);
+
+  const players = useGlobalStore((store) => store.players);
+
+  const activePlayer = players.find((player) => player.id === id)!;
+
   const shuffledDeckCards = shuffle();
 
   const [currentDeckCards, setCurrentDeckCards] = useState(shuffledDeckCards);
   const [dealCount, setDealCount] = useState(0);
   const [currentBet, setCurrentBet] = useState<number>(1);
-  const [winCondition, setwinCondition] = useState<WinCondition>({
+  const [winCondition, setWinCondition] = useState<WinCondition>({
     id: 0,
     name: "No win",
     payout: 0,
   });
 
+  // TODO: Make it so that player can't bet midway in a round.
+  // TODO: Not allowed to bet more than credits available.
   function handleClickBet() {
     if (currentBet < 5) {
       setCurrentBet(currentBet + 1);
@@ -74,55 +81,55 @@ export default function Game() {
       const condition = winConditionsList.find((item) => item.id === 1);
 
       if (condition) {
-        setwinCondition(condition);
+        setWinCondition(condition);
       }
     } else if (isAStraight === true && isAFlush === true) {
       const condition = winConditionsList.find((item) => item.id === 2);
 
       if (condition) {
-        setwinCondition(condition);
+        setWinCondition(condition);
       }
     } else if (hasFourOfAKind === true) {
       const condition = winConditionsList.find((item) => item.id === 3);
 
       if (condition) {
-        setwinCondition(condition);
+        setWinCondition(condition);
       }
     } else if (hasThreeOfAKind === true && hasAPair === true) {
       const condition = winConditionsList.find((item) => item.id === 4);
 
       if (condition) {
-        setwinCondition(condition);
+        setWinCondition(condition);
       }
     } else if (isAFlush === true) {
       const condition = winConditionsList.find((item) => item.id === 5);
 
       if (condition) {
-        setwinCondition(condition);
+        setWinCondition(condition);
       }
     } else if (isAStraight === true) {
       const condition = winConditionsList.find((item) => item.id === 6);
 
       if (condition) {
-        setwinCondition(condition);
+        setWinCondition(condition);
       }
     } else if (hasThreeOfAKind === true) {
       const condition = winConditionsList.find((item) => item.id === 7);
 
       if (condition) {
-        setwinCondition(condition);
+        setWinCondition(condition);
       }
     } else if (hasTwoPairs === true) {
       const condition = winConditionsList.find((item) => item.id === 8);
 
       if (condition) {
-        setwinCondition(condition);
+        setWinCondition(condition);
       }
     } else if (hasJacksorBetter === true) {
       const condition = winConditionsList.find((item) => item.id === 9);
 
       if (condition) {
-        setwinCondition(condition);
+        setWinCondition(condition);
       }
     }
   }
@@ -168,10 +175,17 @@ export default function Game() {
     }
 
     if (winCondition && dealCount === 2) {
-      const addCredits = winCondition.payout * currentBet;
+      const newCredits = winCondition.payout * currentBet - currentBet;
       const newPokerHand: PokerHandCard[] = [];
-      setPlayerCredits(activePlayer.id, addCredits);
+      const resetCondition = {
+        id: 0,
+        name: "No win",
+        payout: 0,
+      };
+
+      setPlayerCredits(activePlayer.id, newCredits);
       setPokerHand(newPokerHand);
+      setWinCondition(resetCondition);
     }
   }
 

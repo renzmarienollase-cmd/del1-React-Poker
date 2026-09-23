@@ -26,7 +26,7 @@ export default function App() {
             <li key={player.id}>
               <span>{player.name}</span>
               <div>
-                <PlayButton player={player} />
+                <PlayButton id={player.id} />
                 <button
                   className="tertiary-button"
                   type="button"

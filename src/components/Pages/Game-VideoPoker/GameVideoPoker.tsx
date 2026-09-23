@@ -1,10 +1,15 @@
+import { useGlobalStore } from "../../../Stores";
 import Game from "../../Game/Game";
 import "./GameVideoPoker.css";
 
 export default function GameVideoPoker() {
-  const activePlayer = JSON.parse(
-    String(sessionStorage.getItem("activePlayer")),
-  );
+  const sessionId = sessionStorage.getItem("activePlayer");
+
+  const id = Number(sessionId);
+
+  const players = useGlobalStore((store) => store.players);
+
+  const activePlayer = players.find((player) => player.id === id)!;
 
   return (
     <main>

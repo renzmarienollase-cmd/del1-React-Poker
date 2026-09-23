@@ -1,12 +1,11 @@
 import "./PlayButton.css";
 import { useNavigate } from "react-router";
-import type { Player } from "../../Stores";
 
-export default function PlayButton({ player }: { player: Player }) {
+export default function PlayButton({ id }: { id: number }) {
   let navigate = useNavigate();
 
   function handleClick() {
-    const activePlayer = JSON.stringify(player);
+    const activePlayer = JSON.stringify(id);
 
     sessionStorage.setItem("activePlayer", activePlayer);
 
