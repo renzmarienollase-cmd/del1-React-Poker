@@ -43,6 +43,8 @@ export default function Game() {
     payout: 0,
   });
 
+  let realDealCount = dealCount;
+
   // TODO: Make it so that player can't bet midway in a round.
   // TODO: Not allowed to bet more than credits available.
   function handleClickBet() {
@@ -168,15 +170,17 @@ export default function Game() {
       determineWinCondition(newPokerHand);
     }
 
-    if (dealCount < 2) {
-      setDealCount(dealCount + 1);
-    } else if (dealCount === 2) {
-      setDealCount(0);
+    if (realDealCount < 2) {
+      realDealCount++;
+    } else if (realDealCount === 2) {
+      realDealCount = 0;
+      setPokerHand([]);
     }
 
-    if (winCondition && dealCount === 2) {
-      const newCredits = winCondition.payout * currentBet - currentBet;
-      const newPokerHand: PokerHandCard[] = [];
+    if (winCondition && realDealCount === 2) {
+      const newCredits = -currentBet;
+      //const newCredits = winCondition.payout * currentBet - currentBet;
+      // const newPokerHand: PokerHandCard[] = [];
       const resetCondition = {
         id: 0,
         name: "No win",
@@ -184,9 +188,10 @@ export default function Game() {
       };
 
       setPlayerCredits(activePlayer.id, newCredits);
-      setPokerHand(newPokerHand);
+      //setPokerHand(newPokerHand);
       setWinCondition(resetCondition);
     }
+    setDealCount(realDealCount);
   }
 
   return (
