@@ -43,7 +43,7 @@ export default function Card({ id, variant, suite, value, isHeld }: CardProps) {
       {variant !== "front" ? (
         <></>
       ) : (
-        <button type="button" onClick={toggleHeld}>
+        <button type="button" onClick={toggleHeld} id="hold-btn">
           {!isHeld ? <span>Hold</span> : <span>Release</span>}
         </button>
       )}

@@ -1,7 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Podkova:wght@400..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap");
 
 /* Global reset */
-
 *,
 *::before,
 *::after {
@@ -9,10 +9,20 @@
 }
 
 body {
+  background-color: var(--bg-blue);
+  width: 100vw;
+  height: 100vh;
   margin: 0;
   line-height: 1.5;
-  font-family: "Quantico", sans-serif;
+  font-family: "Schibsted Grotesk", sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Podkova", serif;
   font-optical-sizing: auto;
+  font-weight: 600;
 }
 
 ul {
@@ -34,6 +44,13 @@ select {
 }
 
 :root {
-  background-color: black;
-  color: whitesmoke;
+  --bg-blue: #00a8e8;
+  --white: #ffffffff;
+  --red: #f44336;
+  --powder-blue: #d5f3ff;
+}
+
+#nav-theme-bar {
+  display: flex;
+  justify-content: space-between;
 }

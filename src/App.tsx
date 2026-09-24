@@ -13,7 +13,7 @@ export default function App() {
 
   return (
     <main className="lobby-container">
-      <h1>Welcome!</h1>
+      <h1>Sky Poker</h1>
       <h2>Create a player</h2>
       <CreatePlayerForm />
       <h2>Players</h2>

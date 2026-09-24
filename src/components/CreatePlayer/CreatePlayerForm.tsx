@@ -18,7 +18,11 @@ export default function CreatePlayerForm() {
   }
 
   return (
-    <form action={handleSubmit}>
+    <form
+      action={handleSubmit}
+      className="add-player-form
+    "
+    >
       <label>
         <span>Player Name (max. 8 characters):</span>
         <br />
@@ -30,7 +34,9 @@ export default function CreatePlayerForm() {
             maxLength={8}
             required
           />
-          <button type="submit">Create</button>
+          <button type="submit" className="primary-btn">
+            Create
+          </button>
         </span>
       </label>
     </form>

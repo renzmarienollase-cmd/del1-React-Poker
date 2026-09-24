@@ -11,13 +11,15 @@
   }
   ul {
     list-style-type: none;
-    inline-size: min(352px, 96%);
+    inline-size: 100%;
 
     li {
+      background: rgba(255, 255, 255, 0.36);
+      backdrop-filter: blur(10px) saturate(180%);
+      border-radius: 16px;
       display: flex;
       justify-content: space-between;
       border-collapse: collapse;
-      border: 1px solid whitesmoke;
       min-width: 20rem;
       padding: 0.25rem 0.5rem 0.25rem 0.5rem;
       max-height: fit-content;
@@ -29,22 +31,21 @@
     }
   }
 
-  .tertiary-button {
-    background-color: transparent;
-    color: inherit;
-    border: 2px solid black;
-    font-style: italic;
-    padding: 0.5rem 1rem;
-  }
-
-  .tertiary-button:focus,
-  .tertiary-button:hover {
-    border-collapse: collapse;
-    border: 2px solid red;
-    color: red;
-  }
-
   p {
     margin: 0;
   }
+}
+
+.tertiary-button {
+  background-color: transparent;
+  color: inherit;
+  border: 2px solid white;
+  font-style: italic;
+  padding: 0.5rem 1rem;
+}
+
+.tertiary-button:focus,
+.tertiary-button:hover {
+  border-collapse: collapse;
+  border: 2px solid var(--red);
 }

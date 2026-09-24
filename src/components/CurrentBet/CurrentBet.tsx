@@ -9,7 +9,7 @@ export default function CurrentBet({ betValue, onBetClick }: CurrentBetProps) {
       <span>Bet</span>
       <span>{betValue}</span>
       <br />
-      <button type="button" onClick={onBetClick}>
+      <button type="button" onClick={onBetClick} id="bet-btn">
         +
       </button>
     </>
