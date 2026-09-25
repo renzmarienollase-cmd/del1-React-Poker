@@ -1,6 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap");
-
 .mechanics-page {
+  h1 {
+    text-align: center;
+  }
   ol {
     padding: 0;
     list-style-position: outside;
@@ -9,4 +10,23 @@
   li {
     margin: 0.5rem 4rem;
   }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a:hover,
+  a:focus {
+    text-decoration: underline;
+    color: var(--accent-secondary);
+  }
+}
+
+.payout-table-container {
+  overflow-x: auto;
+}
+
+.mechanics-page * {
+  padding-inline: 0.5rem;
 }
