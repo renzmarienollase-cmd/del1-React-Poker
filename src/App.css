@@ -36,16 +36,30 @@
   }
 }
 
+.primary-button {
+  background-color: var(--surface);
+  border: 1px solid var(--accent-secondary);
+  border-radius: 0.5rem;
+  inline-size: 100%;
+  padding: 0.5rem 1rem;
+}
+
 .tertiary-button {
   background-color: transparent;
+  border: none;
   color: inherit;
-  border: 2px solid white;
   font-style: italic;
-  padding: 0.5rem 1rem;
+  padding-inline: 1rem;
 }
 
 .tertiary-button:focus,
 .tertiary-button:hover {
   border-collapse: collapse;
-  border: 2px solid var(--red);
+  border: 2px solid var(--accent-primary);
+}
+
+.flex-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
 }

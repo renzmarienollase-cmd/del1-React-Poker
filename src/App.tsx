@@ -25,7 +25,7 @@ export default function App() {
           players.map((player) => (
             <li key={player.id}>
               <span>{player.name}</span>
-              <div>
+              <div className="flex-row">
                 <PlayButton id={player.id} />
                 <button
                   className="tertiary-button"

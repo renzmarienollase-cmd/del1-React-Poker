@@ -13,7 +13,7 @@ export default function PlayButton({ id }: { id: number }) {
   }
 
   return (
-    <button className="primary-btn" onClick={handleClick}>
+    <button className="primary-button" onClick={handleClick}>
       Play
     </button>
   );

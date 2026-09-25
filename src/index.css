@@ -10,11 +10,12 @@
 
 body {
   background-color: var(--bg-blue);
+  color: var(--font-color);
   width: 100vw;
-  height: 100vh;
   margin: 0;
   line-height: 1.5;
   font-family: "Schibsted Grotesk", sans-serif;
+  height: 100%;
 }
 
 h1,
@@ -45,12 +46,28 @@ select {
 
 :root {
   --bg-blue: #00a8e8;
-  --white: #ffffffff;
-  --red: #f44336;
-  --powder-blue: #d5f3ff;
+  --font-color: black;
+  --surface: #ffffffff;
+  --accent-primary: #f44336;
+  --accent-secondary: #7692ff;
 }
 
-#nav-theme-bar {
-  display: flex;
-  justify-content: space-between;
+[data-theme="light"] {
+  --bg-blue: #00a8e8;
+  --font-color: black;
+  --surface: #ffffffff;
+  --accent-primary: #f44336;
+  --accent-secondary: #7692ff;
+}
+
+[data-theme="dark"] {
+  --bg-blue: #382045;
+  --font-color: white;
+  --surface: #7692ff;
+  --accent-primary: #e200e2;
+  --accent-secondary: #078cbe;
+}
+
+* {
+  transition: all 0.3s ease-in-out;
 }

@@ -27,6 +27,7 @@ export type PokerHandCard = {
 // types for other objects should be put here for later use in Globals
 
 export type Globals = {
+  darkTheme: boolean;
   playerCount: number;
   players: Player[];
   winConditionsList: WinCondition[];
@@ -37,11 +38,13 @@ export type Globals = {
   deletePlayer: (playerId: number) => void;
   setPokerHand: (newHand: PokerHandCard[]) => void;
   setPlayerCredits: (id: number, addCredits: number) => void;
+  setDarkTheme: () => void;
 };
 
 export const useGlobalStore = create<Globals>()(
   persist(
     (set) => ({
+      darkTheme: false,
       playerCount: 0,
       players: [],
       winConditionsList: [
@@ -138,6 +141,7 @@ export const useGlobalStore = create<Globals>()(
               : player,
           ),
         })),
+      setDarkTheme: () => set((state) => ({ darkTheme: !state.darkTheme })),
     }),
     {
       name: "poker-loc-storage",

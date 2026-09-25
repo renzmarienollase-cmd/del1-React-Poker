@@ -13,7 +13,7 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <Container as="div">
-        <div id="nav-theme-bar">
+        <div className="flex-row" id="nav-theme-bar">
           <PageNavigation />
           <ToggleTheme />
         </div>

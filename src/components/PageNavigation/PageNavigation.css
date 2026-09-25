@@ -18,12 +18,12 @@
     padding: 0.5rem 1rem;
 
     &.active {
-      border: 2px solid var(--red);
+      border: 2px solid var(--accent-primary);
     }
   }
 
   a:hover,
   a:focus {
-    background-color: var(--red);
+    background-color: var(--accent-primary);
   }
 }

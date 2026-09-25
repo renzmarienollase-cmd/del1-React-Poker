@@ -26,7 +26,7 @@ export default function CreatePlayerForm() {
       <label>
         <span>Player Name (max. 8 characters):</span>
         <br />
-        <span>
+        <span className="flex-row">
           <input
             id="player-name"
             name="player-name"
@@ -34,7 +34,7 @@ export default function CreatePlayerForm() {
             maxLength={8}
             required
           />
-          <button type="submit" className="primary-btn">
+          <button type="submit" className="primary-button">
             Create
           </button>
         </span>
