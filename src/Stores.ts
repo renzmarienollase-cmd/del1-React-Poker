@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 
 export type Player = {
   id: number;
@@ -32,11 +32,9 @@ export type Globals = {
   players: Player[];
   winConditionsList: WinCondition[];
   deckCards: DeckCard[];
-  pokerHand: PokerHandCard[];
 
   addPlayer: (newPlayer: Player) => void;
   deletePlayer: (playerId: number) => void;
-  setPokerHand: (newHand: PokerHandCard[]) => void;
   setPlayerCredits: (id: number, addCredits: number) => void;
   setDarkTheme: () => void;
 };
@@ -115,7 +113,6 @@ export const useGlobalStore = create<Globals>()(
         { id: 51, suite: "club", value: 12 },
         { id: 52, suite: "club", value: 13 },
       ],
-      pokerHand: [],
       addPlayer(newPlayer: Player) {
         set((state) => ({
           players: [...state.players, newPlayer],
@@ -127,11 +124,6 @@ export const useGlobalStore = create<Globals>()(
           players: state.players.filter((player) => player.id !== playerId),
           playerCount: state.playerCount - 1,
         }));
-      },
-      setPokerHand(newHand) {
-        set({
-          pokerHand: newHand,
-        });
       },
       setPlayerCredits: (id, addCredits) =>
         set((state) => ({
@@ -145,6 +137,39 @@ export const useGlobalStore = create<Globals>()(
     }),
     {
       name: "poker-loc-storage",
+    },
+  ),
+);
+
+type GameSessionStore = {
+  activePlayer: Player | null;
+  pokerHand: PokerHandCard[];
+
+  setActivePlayer: (player: Player | null) => void;
+  setPokerHand: (newHand: PokerHandCard[]) => void;
+};
+
+export const useGameSessionStore = create<GameSessionStore>()(
+  persist(
+    (set) => ({
+      activePlayer: null,
+      pokerHand: [],
+
+      setActivePlayer: (player) => {
+        set({
+          activePlayer: player,
+        });
+      },
+
+      setPokerHand: (newHand) => {
+        set({
+          pokerHand: newHand,
+        });
+      },
+    }),
+    {
+      name: "poker-game-store",
+      storage: createJSONStorage(() => sessionStorage),
     },
   ),
 );

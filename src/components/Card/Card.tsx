@@ -1,4 +1,4 @@
-import { useGlobalStore } from "../../Stores";
+import { useGlobalStore, useGameSessionStore } from "../../Stores";
 import "./Card.css";
 
 type CardProps = {
@@ -11,8 +11,8 @@ type CardProps = {
 
 export default function Card({ id, variant, suite, value, isHeld }: CardProps) {
   const darkTheme = useGlobalStore((store) => store.darkTheme);
-  const pokerHand = useGlobalStore((store) => store.pokerHand);
-  const setPokerHand = useGlobalStore((store) => store.setPokerHand);
+  const pokerHand = useGameSessionStore((store) => store.pokerHand);
+  const setPokerHand = useGameSessionStore((store) => store.setPokerHand);
 
   let cardName = "";
 
@@ -67,9 +67,9 @@ export default function Card({ id, variant, suite, value, isHeld }: CardProps) {
       {variant !== "front" ? (
         <div className={`deck-card ${variant} bg-glass`}>
           {!darkTheme ? (
-            <img src="public/Sun.svg" alt="" />
+            <img src="/Sun.svg" alt="" />
           ) : (
-            <img src="public/Moon.svg" alt="" />
+            <img src="/Moon.svg" alt="" />
           )}
         </div>
       ) : (

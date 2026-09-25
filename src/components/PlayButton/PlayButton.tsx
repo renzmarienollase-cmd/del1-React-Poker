@@ -1,13 +1,17 @@
+import { useGameSessionStore, useGlobalStore } from "../../Stores";
 import "./PlayButton.css";
 import { useNavigate } from "react-router";
 
 export default function PlayButton({ id }: { id: number }) {
-  let navigate = useNavigate();
+  const players = useGlobalStore((store) => store.players);
+  const setActivePlayer = useGameSessionStore((store) => store.setActivePlayer);
+  const navigate = useNavigate();
 
   function handleClick() {
-    const activePlayer = JSON.stringify(id);
+    const activePlayer = players.find((player) => player.id === id)!;
+    console.log(activePlayer);
 
-    sessionStorage.setItem("activePlayer", activePlayer);
+    setActivePlayer(activePlayer);
 
     navigate("/game-videopoker");
   }

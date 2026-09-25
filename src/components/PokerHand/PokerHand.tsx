@@ -1,9 +1,9 @@
-import { useGlobalStore } from "../../Stores";
+import { useGameSessionStore } from "../../Stores";
 import "./PokerHand.css";
 import Card from "../Card/Card";
 
 export default function PokerHand() {
-  const pokerHand = useGlobalStore((store) => store.pokerHand);
+  const pokerHand = useGameSessionStore((store) => store.pokerHand);
   return (
     <div className="poker-hand">
       {pokerHand.map((hand) => (

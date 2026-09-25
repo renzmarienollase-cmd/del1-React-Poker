@@ -3,7 +3,7 @@ import PayoutTable from "../PayoutTable/PayoutTable";
 import Container from "../Container/Container";
 import { useState } from "react";
 import "./Game.css";
-import { useGlobalStore } from "../../Stores";
+import { useGameSessionStore, useGlobalStore } from "../../Stores";
 import Card from "../Card/Card";
 import PokerHand from "../PokerHand/PokerHand";
 import {
@@ -19,18 +19,13 @@ import {
 import type { DeckCard, PokerHandCard, WinCondition } from "../../Stores";
 
 export default function Game() {
-  const { deckCards, pokerHand, setPokerHand } = useGlobalStore();
+  const deckCards = useGlobalStore((store) => store.deckCards);
+  const { pokerHand, setPokerHand } = useGameSessionStore();
   // These are block-scoped variables? What are those?
   const winConditionsList = useGlobalStore((store) => store.winConditionsList);
   const setPlayerCredits = useGlobalStore((store) => store.setPlayerCredits);
 
-  const sessionId = sessionStorage.getItem("activePlayer");
-
-  const id = Number(sessionId);
-
-  const players = useGlobalStore((store) => store.players);
-
-  const activePlayer = players.find((player) => player.id === id)!;
+  const activePlayer = useGameSessionStore((store) => store.activePlayer)!;
 
   const shuffledDeckCards = shuffle();
 
