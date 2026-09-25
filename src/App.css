@@ -15,7 +15,12 @@
     inline-size: max(20rem, 60%);
     text-align: center;
 
-    li {
+    li:hover,
+    li:focus {
+      border: 2px solid var(--accent-primary);
+    }
+
+    .player-bar {
       border-radius: 1rem;
       display: flex;
       justify-content: space-between;
@@ -24,11 +29,6 @@
       max-height: fit-content;
       align-items: center;
       margin-block: 0.25rem;
-    }
-
-    li:hover,
-    li:focus {
-      border: 2px solid var(--accent-primary);
     }
 
     span {
@@ -55,6 +55,17 @@
   .player-bar {
     align-items: center;
     flex-wrap: wrap;
+  }
+
+  .player-bar * {
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 355px) {
+  .player-bar {
+    flex-direction: column;
+    padding: 0;
   }
 
   .player-bar * {
