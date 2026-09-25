@@ -25,7 +25,6 @@ export default function CreatePlayerForm() {
     >
       <label>
         <span>Player Name (max. 8 characters):</span>
-        <br />
         <span className="flex-row">
           <input
             id="player-name"

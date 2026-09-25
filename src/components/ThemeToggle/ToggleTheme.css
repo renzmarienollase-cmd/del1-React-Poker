@@ -12,6 +12,11 @@
   color: inherit;
 }
 
+#theme-toggle:hover,
+#theme-toggle:focus {
+  border-bottom: 4px solid var(--accent-primary);
+}
+
 .bg-container {
   position: fixed;
   top: 0;

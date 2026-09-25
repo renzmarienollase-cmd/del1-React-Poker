@@ -4,13 +4,18 @@
   label {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     gap: 0.25rem;
+    inline-size: 100%;
   }
 
   input {
     border: 1px solid var(--accent-secondary);
-    border-radius: 0.5rem;
+    border-radius: 1rem;
     padding: 0.5rem 0.5rem;
+    inline-size: clamp(14rem, 50vw, 20rem);
+    flex-shrink: 1;
+    margin-inline: auto;
   }
 }

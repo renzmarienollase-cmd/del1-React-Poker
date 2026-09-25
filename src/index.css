@@ -63,11 +63,12 @@ select {
 [data-theme="dark"] {
   --bg-blue: #382045;
   --font-color: white;
-  --surface: #7692ff;
-  --accent-primary: #e200e2;
+  --surface: #0537ff;
+  --accent-primary: #d100d1;
   --accent-secondary: #078cbe;
 }
 
-* {
+body,
+:not(button, a, button:hover, button:focus, a:hover, a:focus) {
   transition: all 0.3s ease-in-out;
 }
