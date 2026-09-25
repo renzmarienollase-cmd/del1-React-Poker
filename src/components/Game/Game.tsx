@@ -16,16 +16,16 @@ import {
   setHasFourOfAKind,
   setIsARoyal,
 } from "../../functions/winChecks";
-import type { DeckCard, PokerHandCard, WinCondition } from "../../Stores";
+import type { DeckCard, PokerHandCard } from "../../Stores";
 
 export default function Game() {
   const deckCards = useGlobalStore((store) => store.deckCards);
   const { pokerHand, setPokerHand } = useGameSessionStore();
   // These are block-scoped variables? What are those?
   const winConditionsList = useGlobalStore((store) => store.winConditionsList);
-  const setPlayerCredits = useGlobalStore((store) => store.setPlayerCredits);
+  //const setPlayerCredits = useGlobalStore((store) => store.setPlayerCredits);
 
-  const activePlayer = useGameSessionStore((store) => store.activePlayer)!;
+  //const activePlayer = useGameSessionStore((store) => store.activePlayer)!;
 
   const shuffledDeckCards = shuffle();
 
@@ -33,16 +33,10 @@ export default function Game() {
   const [dealCount, setDealCount] = useState(0);
   const [currentBet, setCurrentBet] = useState<number>(1);
 
-  const noWinCondition: WinCondition = {
-    id: 0,
-    name: "No win",
-    payout: 0,
-  };
-
-  const [winCondition, setWinCondition] =
-    useState<WinCondition>(noWinCondition);
+  const { winCondition, setWinCondition } = useGameSessionStore();
 
   let realDealCount = dealCount;
+  console.log("realDealCount initial", realDealCount);
 
   // TODO: Make it so that player can't bet midway in a round.
   // TODO: Not allowed to bet more than credits available.
@@ -78,67 +72,38 @@ export default function Game() {
     const hasFourOfAKind = setHasFourOfAKind(cards);
     const isARoyal = setIsARoyal(cards);
 
-    console.log(
-      hasJacksorBetter,
-      hasAPair,
-      hasTwoPairs,
-      hasThreeOfAKind,
-      isAStraight,
-      isAFlush,
-      hasFourOfAKind,
-      isARoyal,
-    );
+    let winConditionId = 0;
 
-    if (isARoyal === true && isAFlush === true) {
-      const condition = winConditionsList.find((item) => item.id === 1)!;
-
-      return condition;
-    }
-    if (isAStraight && isAFlush) {
-      const condition = winConditionsList.find((item) => item.id === 2)!;
-
-      return condition;
-    }
-    if (hasFourOfAKind === true) {
-      const condition = winConditionsList.find((item) => item.id === 3)!;
-
-      return condition;
-    }
-    if (hasThreeOfAKind === true && hasAPair === true) {
-      const condition = winConditionsList.find((item) => item.id === 4)!;
-
-      return condition;
-    }
-    if (isAFlush === true) {
-      const condition = winConditionsList.find((item) => item.id === 5)!;
-
-      return condition;
-    }
-    if (isAStraight === true) {
-      const condition = winConditionsList.find((item) => item.id === 6)!;
-
-      return condition;
-    }
-    if (hasThreeOfAKind === true) {
-      const condition = winConditionsList.find((item) => item.id === 7)!;
-
-      return condition;
-    }
-    if (hasTwoPairs === true) {
-      const condition = winConditionsList.find((item) => item.id === 8)!;
-
-      return condition;
-    }
-    if (hasJacksorBetter === true) {
-      const condition = winConditionsList.find((item) => item.id === 9)!;
-
-      return condition;
+    if (isARoyal && isAFlush) {
+      winConditionId = 1;
+    } else if (isAStraight && isAFlush) {
+      winConditionId = 2;
+    } else if (hasFourOfAKind) {
+      winConditionId = 3;
+    } else if (hasThreeOfAKind && hasAPair) {
+      winConditionId = 4;
+    } else if (isAFlush) {
+      winConditionId = 5;
+    } else if (isAStraight) {
+      winConditionId = 6;
+    } else if (hasThreeOfAKind) {
+      winConditionId = 7;
+    } else if (hasTwoPairs) {
+      winConditionId = 8;
+    } else if (hasJacksorBetter) {
+      winConditionId = 9;
     }
 
-    return noWinCondition;
+    const condition = winConditionsList.find(
+      (item) => item.id === winConditionId,
+    )!;
+
+    setWinCondition(condition);
   }
 
   function handleClickDeal() {
+    setDealCount(++realDealCount);
+
     if (pokerHand.length === 0) {
       const newCards = currentDeckCards.slice(0, 5);
       const remainingDeckCards = currentDeckCards.slice(5);
@@ -150,8 +115,7 @@ export default function Game() {
 
       setPokerHand(newPokerHand);
       setCurrentDeckCards(remainingDeckCards);
-      const winCondition = determineWinCondition(newPokerHand);
-      return winCondition;
+      determineWinCondition(newPokerHand);
     } else {
       const newPokerHand = pokerHand.map((hand) => {
         if (hand.isHeld === false) {
@@ -170,28 +134,8 @@ export default function Game() {
       });
 
       setPokerHand(newPokerHand);
-      const winCondition = determineWinCondition(newPokerHand);
-      return winCondition;
+      determineWinCondition(newPokerHand);
     }
-
-    if (realDealCount < 2) {
-      realDealCount++;
-    } else if (realDealCount === 2) {
-      realDealCount = 0;
-      setPokerHand([]);
-    }
-
-    if (realDealCount === 2) {
-      //const newCredits = -currentBet;
-      const newCredits = winCondition.payout * currentBet - currentBet;
-      // const newPokerHand: PokerHandCard[] = [];
-
-      setPlayerCredits(activePlayer.id, newCredits);
-      //setPokerHand(newPokerHand);
-      setWinCondition(noWinCondition);
-    }
-
-    setDealCount(realDealCount);
   }
 
   return (

@@ -46,6 +46,7 @@ export const useGlobalStore = create<Globals>()(
       playerCount: 0,
       players: [],
       winConditionsList: [
+        { id: 0, name: "No win", payout: 0 },
         { id: 1, name: "Royal Flush", payout: 250 },
         { id: 2, name: "Straight Flush", payout: 50 },
         { id: 3, name: "Four of a Kind", payout: 25 },
@@ -144,9 +145,11 @@ export const useGlobalStore = create<Globals>()(
 type GameSessionStore = {
   activePlayer: Player | null;
   pokerHand: PokerHandCard[];
+  winCondition: WinCondition;
 
   setActivePlayer: (player: Player | null) => void;
   setPokerHand: (newHand: PokerHandCard[]) => void;
+  setWinCondition: (condition: WinCondition) => void;
 };
 
 export const useGameSessionStore = create<GameSessionStore>()(
@@ -154,6 +157,11 @@ export const useGameSessionStore = create<GameSessionStore>()(
     (set) => ({
       activePlayer: null,
       pokerHand: [],
+      winCondition: {
+        id: 0,
+        name: "No win",
+        payout: 0,
+      },
 
       setActivePlayer: (player) => {
         set({
@@ -165,6 +173,9 @@ export const useGameSessionStore = create<GameSessionStore>()(
         set({
           pokerHand: newHand,
         });
+      },
+      setWinCondition: (condition) => {
+        set({ winCondition: condition });
       },
     }),
     {
