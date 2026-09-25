@@ -5,7 +5,7 @@ export default function Mechanics() {
   return (
     <main className="mechanics-page">
       <h1>How to play Video Poker</h1>
-      <ol>
+      <ol className="bg-glass">
         <li>
           Place your bet. Your starting bet is 1 and can be increased using the
           increase button. Maximum bet is 5.
@@ -30,7 +30,7 @@ export default function Mechanics() {
       </ol>
 
       <h2>How to Win</h2>
-      <p>
+      <p className="long-text bg-glass">
         The objective is simple: land a five-card combination that appears on
         the pay table once your draw is locked in. <br />
         A hand is officially over the moment your replacement cards land after
@@ -53,8 +53,16 @@ export default function Mechanics() {
         inspiration from:
       </p>
       <ul>
-        <li>https://gamerules.com/rules/video-poker/</li>
-        <li>https://www.freeslots.com/poker.htm</li>
+        <li>
+          <a href="https://gamerules.com/rules/video-poker/">
+            Game Rules: Video Poker
+          </a>
+        </li>
+        <li>
+          <a href="https://www.freeslots.com/poker.htm">
+            Free Slots: Video Poker
+          </a>
+        </li>
       </ul>
     </main>
   );

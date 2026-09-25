@@ -37,11 +37,15 @@ export default function Game() {
   const [currentDeckCards, setCurrentDeckCards] = useState(shuffledDeckCards);
   const [dealCount, setDealCount] = useState(0);
   const [currentBet, setCurrentBet] = useState<number>(1);
-  const [winCondition, setWinCondition] = useState<WinCondition>({
+
+  const noWinCondition: WinCondition = {
     id: 0,
     name: "No win",
     payout: 0,
-  });
+  };
+
+  const [winCondition, setWinCondition] =
+    useState<WinCondition>(noWinCondition);
 
   let realDealCount = dealCount;
 
@@ -79,61 +83,64 @@ export default function Game() {
     const hasFourOfAKind = setHasFourOfAKind(cards);
     const isARoyal = setIsARoyal(cards);
 
+    console.log(
+      hasJacksorBetter,
+      hasAPair,
+      hasTwoPairs,
+      hasThreeOfAKind,
+      isAStraight,
+      isAFlush,
+      hasFourOfAKind,
+      isARoyal,
+    );
+
     if (isARoyal === true && isAFlush === true) {
-      const condition = winConditionsList.find((item) => item.id === 1);
+      const condition = winConditionsList.find((item) => item.id === 1)!;
 
-      if (condition) {
-        setWinCondition(condition);
-      }
-    } else if (isAStraight === true && isAFlush === true) {
-      const condition = winConditionsList.find((item) => item.id === 2);
-
-      if (condition) {
-        setWinCondition(condition);
-      }
-    } else if (hasFourOfAKind === true) {
-      const condition = winConditionsList.find((item) => item.id === 3);
-
-      if (condition) {
-        setWinCondition(condition);
-      }
-    } else if (hasThreeOfAKind === true && hasAPair === true) {
-      const condition = winConditionsList.find((item) => item.id === 4);
-
-      if (condition) {
-        setWinCondition(condition);
-      }
-    } else if (isAFlush === true) {
-      const condition = winConditionsList.find((item) => item.id === 5);
-
-      if (condition) {
-        setWinCondition(condition);
-      }
-    } else if (isAStraight === true) {
-      const condition = winConditionsList.find((item) => item.id === 6);
-
-      if (condition) {
-        setWinCondition(condition);
-      }
-    } else if (hasThreeOfAKind === true) {
-      const condition = winConditionsList.find((item) => item.id === 7);
-
-      if (condition) {
-        setWinCondition(condition);
-      }
-    } else if (hasTwoPairs === true) {
-      const condition = winConditionsList.find((item) => item.id === 8);
-
-      if (condition) {
-        setWinCondition(condition);
-      }
-    } else if (hasJacksorBetter === true) {
-      const condition = winConditionsList.find((item) => item.id === 9);
-
-      if (condition) {
-        setWinCondition(condition);
-      }
+      return condition;
     }
+    if (isAStraight && isAFlush) {
+      const condition = winConditionsList.find((item) => item.id === 2)!;
+
+      return condition;
+    }
+    if (hasFourOfAKind === true) {
+      const condition = winConditionsList.find((item) => item.id === 3)!;
+
+      return condition;
+    }
+    if (hasThreeOfAKind === true && hasAPair === true) {
+      const condition = winConditionsList.find((item) => item.id === 4)!;
+
+      return condition;
+    }
+    if (isAFlush === true) {
+      const condition = winConditionsList.find((item) => item.id === 5)!;
+
+      return condition;
+    }
+    if (isAStraight === true) {
+      const condition = winConditionsList.find((item) => item.id === 6)!;
+
+      return condition;
+    }
+    if (hasThreeOfAKind === true) {
+      const condition = winConditionsList.find((item) => item.id === 7)!;
+
+      return condition;
+    }
+    if (hasTwoPairs === true) {
+      const condition = winConditionsList.find((item) => item.id === 8)!;
+
+      return condition;
+    }
+    if (hasJacksorBetter === true) {
+      const condition = winConditionsList.find((item) => item.id === 9)!;
+
+      return condition;
+    }
+
+    return noWinCondition;
   }
 
   function handleClickDeal() {
@@ -148,7 +155,8 @@ export default function Game() {
 
       setPokerHand(newPokerHand);
       setCurrentDeckCards(remainingDeckCards);
-      determineWinCondition(newPokerHand);
+      const winCondition = determineWinCondition(newPokerHand);
+      return winCondition;
     } else {
       const newPokerHand = pokerHand.map((hand) => {
         if (hand.isHeld === false) {
@@ -167,7 +175,8 @@ export default function Game() {
       });
 
       setPokerHand(newPokerHand);
-      determineWinCondition(newPokerHand);
+      const winCondition = determineWinCondition(newPokerHand);
+      return winCondition;
     }
 
     if (realDealCount < 2) {
@@ -177,31 +186,30 @@ export default function Game() {
       setPokerHand([]);
     }
 
-    if (winCondition && realDealCount === 2) {
-      const newCredits = -currentBet;
-      //const newCredits = winCondition.payout * currentBet - currentBet;
+    if (realDealCount === 2) {
+      //const newCredits = -currentBet;
+      const newCredits = winCondition.payout * currentBet - currentBet;
       // const newPokerHand: PokerHandCard[] = [];
-      const resetCondition = {
-        id: 0,
-        name: "No win",
-        payout: 0,
-      };
 
       setPlayerCredits(activePlayer.id, newCredits);
       //setPokerHand(newPokerHand);
-      setWinCondition(resetCondition);
+      setWinCondition(noWinCondition);
     }
+
     setDealCount(realDealCount);
   }
 
   return (
     <Container as="section">
       <PayoutTable />
-      <CurrentBet betValue={currentBet} onBetClick={handleClickBet} />
-      <button type="button" onClick={handleClickDeal}>
-        Deal
-      </button>
-      {winCondition ? <p>{winCondition.name}</p> : <p>no win</p>}
+      <div className="bet-deal-bar">
+        <CurrentBet betValue={currentBet} onBetClick={handleClickBet} />
+        <button type="button" onClick={handleClickDeal} id="deal-button">
+          Deal
+        </button>
+      </div>
+
+      {realDealCount >= 1 && <p>{winCondition.name}</p>}
       {pokerHand.length === 0 ? (
         <div className="poker-hand">
           <Card variant="back" />

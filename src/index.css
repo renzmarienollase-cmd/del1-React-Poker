@@ -1,7 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Podkova:wght@400..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap");
 
 /* Global reset */
-
 *,
 *::before,
 *::after {
@@ -9,10 +9,21 @@
 }
 
 body {
+  background-color: var(--bg-blue);
+  color: var(--font-color);
+  width: 100vw;
   margin: 0;
   line-height: 1.5;
-  font-family: "Quantico", sans-serif;
+  font-family: "Schibsted Grotesk", sans-serif;
+  height: 100%;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-accent);
   font-optical-sizing: auto;
+  font-weight: 600;
 }
 
 ul {
@@ -34,6 +45,104 @@ select {
 }
 
 :root {
-  background-color: black;
-  color: whitesmoke;
+  --bg-blue: #00a8e8;
+  --font-color: black;
+  --surface: #ffffffff;
+  --accent-primary: #f44336;
+  --accent-secondary: #7692ff;
+  --accent-tertiary: #ffffffff;
+
+  --font-accent: "Podkova", serif;
+}
+
+[data-theme="light"] {
+  --bg-blue: #00a8e8;
+  --font-color: black;
+  --surface: #ffffffff;
+  --accent-primary: #f44336;
+  --accent-secondary: #7692ff;
+  --accent-tertiary: #ffffffff;
+}
+
+[data-theme="dark"] {
+  --bg-blue: #382045;
+  --font-color: white;
+  --surface: #0537ff;
+  --accent-primary: #d100d1;
+  --accent-secondary: #d100d1;
+  --accent-tertiary: #d100d1;
+}
+
+body,
+:not(button, a, button:hover, button:focus, a:hover, a:focus) {
+  transition: all 0.3s ease-in-out;
+}
+
+button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.primary-button {
+  color: inherit;
+  font-weight: 600;
+  background-color: var(--surface);
+  border: 2px solid var(--surface);
+  border-radius: 1rem;
+  padding: 0.5rem 1.5rem;
+  margin-inline: auto;
+}
+
+.primary-button:focus,
+.primary-button:hover {
+  background-color: var(--accent-primary);
+  color: var(--font-color);
+  border: 2px solid var(--accent-primary);
+}
+
+.secondary-button {
+  background-color: transparent;
+  color: inherit;
+  border: 2px solid var(--accent-primary);
+  border-radius: 1rem;
+}
+
+.secondary-button:hover,
+.secondary-button:focus {
+  background-color: var(--accent-primary);
+  color: var(--font-color);
+  border: 2px solid var(--accent-primary);
+}
+
+.tertiary-button {
+  background-color: transparent;
+  border: 2px solid transparent;
+  color: inherit;
+  font-style: italic;
+  padding-inline: 1rem;
+}
+
+.tertiary-button:focus,
+.tertiary-button:hover {
+  border-collapse: collapse;
+  border: 2px solid var(--font-color);
+}
+
+.flex-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.bg-glass {
+  background: var(--accent-secondary 0.36);
+  backdrop-filter: blur(10px) saturate(180%);
+}
+@media (max-width: 385px) {
+  .flex-row {
+    align-items: center;
+    flex-wrap: wrap;
+  }
 }

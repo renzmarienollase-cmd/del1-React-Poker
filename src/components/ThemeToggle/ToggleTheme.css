@@ -1,0 +1,42 @@
+.material-symbols-outlined {
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+}
+
+#theme-toggle {
+  background-color: transparent;
+  border: none;
+  color: inherit;
+}
+
+#theme-toggle:hover,
+#theme-toggle:focus {
+  border-bottom: 4px solid var(--accent-primary);
+}
+
+.bg-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.bg-image {
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85rem;
+  max-width: none;
+  z-index: -1;
+}
+
+.hidden {
+  display: none;
+}
