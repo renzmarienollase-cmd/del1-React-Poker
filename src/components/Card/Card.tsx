@@ -10,8 +10,42 @@ type CardProps = {
 };
 
 export default function Card({ id, variant, suite, value, isHeld }: CardProps) {
+  const darkTheme = useGlobalStore((store) => store.darkTheme);
   const pokerHand = useGlobalStore((store) => store.pokerHand);
   const setPokerHand = useGlobalStore((store) => store.setPokerHand);
+
+  let cardName = "";
+
+  if (value === 13) {
+    cardName = "K";
+  } else if (value === 12) {
+    cardName = "Q";
+  } else if (value === 11) {
+    cardName = "J";
+  } else if (value === 1) {
+    cardName = "A";
+  } else {
+    cardName = `${value}`;
+  }
+
+  let cardImage = "";
+  if (darkTheme && suite === "Diamond") {
+    cardImage = "Diamond_Dark.svg";
+  } else if (darkTheme && suite === "heart") {
+    cardImage = "Heart_Dark.svg";
+  } else if (darkTheme && suite === "spade") {
+    cardImage = "Spade_Dark.svg";
+  } else if (darkTheme && suite === "club") {
+    cardImage = "Club_Dark.svg";
+  } else if (!darkTheme && suite === "Diamond") {
+    cardImage = "Diamond_Light.svg";
+  } else if (!darkTheme && suite === "heart") {
+    cardImage = "Heart_Light.svg";
+  } else if (!darkTheme && suite === "spade") {
+    cardImage = "Spade_Light.svg";
+  } else if (!darkTheme && suite === "club") {
+    cardImage = "Club_Light.svg";
+  }
 
   function toggleHeld() {
     const newPokerHand = pokerHand.map((handCard) =>
@@ -24,26 +58,31 @@ export default function Card({ id, variant, suite, value, isHeld }: CardProps) {
   }
 
   return (
-    <article className="hand-card">
+    <article className={`hand-card ${isHeld ? "bg-held" : ""}`}>
       {!isHeld ? (
         <span className="status"></span>
       ) : (
         <span className="status">Held</span>
       )}
       {variant !== "front" ? (
-        <div className={`deck-card ${variant}`}></div>
+        <div className={`deck-card ${variant} bg-glass`}>
+          {!darkTheme ? (
+            <img src="public/Sun.svg" alt="" />
+          ) : (
+            <img src="public/Moon.svg" alt="" />
+          )}
+        </div>
       ) : (
         <div className={`deck-card ${variant}`}>
-          <h3>
-            This is {value} of {suite}s
-          </h3>
+          <span className="card-value">{cardName}</span>
+          <img src={`/${cardImage}`} alt={`icon: ${suite}s`} />
         </div>
       )}
 
       {variant !== "front" ? (
         <></>
       ) : (
-        <button type="button" onClick={toggleHeld} id="hold-btn">
+        <button type="button" onClick={toggleHeld} className="secondary-button">
           {!isHeld ? <span>Hold</span> : <span>Release</span>}
         </button>
       )}

@@ -13,6 +13,7 @@
   ul {
     list-style-type: none;
     inline-size: max(20rem, 60%);
+    text-align: center;
 
     li {
       border-radius: 1rem;
@@ -57,6 +58,13 @@
   border: 2px solid var(--accent-primary);
 }
 
+.secondary-button {
+  background-color: transparent;
+  color: inherit;
+  border: 2px solid var(--accent-primary);
+  border-radius: 1rem;
+}
+
 .tertiary-button {
   background-color: transparent;
   border: 2px solid transparent;
@@ -78,7 +86,7 @@
 }
 
 .bg-glass {
-  background: rgba(255, 255, 255, 0.36);
+  background: var(--accent-secondary 0.36);
   backdrop-filter: blur(10px) saturate(180%);
 }
 @media (max-width: 385px) {

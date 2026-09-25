@@ -21,7 +21,7 @@ body {
 h1,
 h2,
 h3 {
-  font-family: "Podkova", serif;
+  font-family: var(--font-accent);
   font-optical-sizing: auto;
   font-weight: 600;
 }
@@ -50,6 +50,9 @@ select {
   --surface: #ffffffff;
   --accent-primary: #f44336;
   --accent-secondary: #7692ff;
+  --accent-tertiary: #ffffffff;
+
+  --font-accent: "Podkova", serif;
 }
 
 [data-theme="light"] {
@@ -58,6 +61,7 @@ select {
   --surface: #ffffffff;
   --accent-primary: #f44336;
   --accent-secondary: #7692ff;
+  --accent-tertiary: #ffffffff;
 }
 
 [data-theme="dark"] {
@@ -65,10 +69,18 @@ select {
   --font-color: white;
   --surface: #0537ff;
   --accent-primary: #d100d1;
-  --accent-secondary: #078cbe;
+  --accent-secondary: #d100d1;
+  --accent-tertiary: #d100d1;
 }
 
 body,
 :not(button, a, button:hover, button:focus, a:hover, a:focus) {
   transition: all 0.3s ease-in-out;
+}
+
+button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
 }

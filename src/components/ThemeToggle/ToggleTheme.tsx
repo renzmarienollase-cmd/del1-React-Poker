@@ -23,12 +23,12 @@ export default function ToggleTheme() {
       </button>
       <div className="bg-container">
         <img
-          src="public\bg_light.svg"
+          src="/bg_light.svg"
           alt=""
           className={`bg-image ${!darkTheme ? "" : "hidden"}`}
         />
         <img
-          src="public\bg_dark.svg"
+          src="/bg_dark.svg"
           alt=""
           className={`bg-image ${darkTheme ? "" : "hidden"}`}
         />

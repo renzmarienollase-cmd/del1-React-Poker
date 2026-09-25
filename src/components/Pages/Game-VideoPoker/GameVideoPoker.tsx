@@ -10,15 +10,13 @@ export default function GameVideoPoker() {
   const players = useGlobalStore((store) => store.players);
 
   const activePlayer = players.find((player) => player.id === id)!;
-
   return (
-    <main>
-      <h1>Video Poker</h1>
+    <main className="game-page-container">
+      <h1>Sky Poker</h1>
       <div className="player-profile">
         <h2>Player: {activePlayer.name}</h2>
         <h2>Credits: {activePlayer.credits}</h2>
       </div>
-
       <Game />
     </main>
   );

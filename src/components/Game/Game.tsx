@@ -202,10 +202,13 @@ export default function Game() {
   return (
     <Container as="section">
       <PayoutTable />
-      <CurrentBet betValue={currentBet} onBetClick={handleClickBet} />
-      <button type="button" onClick={handleClickDeal} id="deal-btn">
-        Deal
-      </button>
+      <div className="bet-deal-bar">
+        <CurrentBet betValue={currentBet} onBetClick={handleClickBet} />
+        <button type="button" onClick={handleClickDeal} id="deal-button">
+          Deal
+        </button>
+      </div>
+
       {realDealCount >= 1 && <p>{winCondition.name}</p>}
       {pokerHand.length === 0 ? (
         <div className="poker-hand">
