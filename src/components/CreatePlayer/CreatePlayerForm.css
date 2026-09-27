@@ -1,25 +1,21 @@
-label {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-input {
-  padding: 0.5rem 0.5rem;
-}
-
-button {
-  color: black;
-  text-decoration: none;
-  padding: 0.5rem 2rem;
-}
-
-button:focus,
-button:hover {
-  background-color: red;
-  color: black;
-}
-
-form {
+.add-player-form {
   margin-block-end: 1rem;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+    inline-size: 100%;
+  }
+
+  input {
+    border: 1px solid var(--accent-secondary);
+    border-radius: 1rem;
+    padding: 0.5rem 0.5rem;
+    inline-size: clamp(14rem, 50vw, 20rem);
+    flex-shrink: 1;
+    margin-inline: auto;
+  }
 }

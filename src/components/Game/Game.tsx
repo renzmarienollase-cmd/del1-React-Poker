@@ -1,33 +1,53 @@
-//import CurrentBet from "../CurrentBet/CurrentBet";
-//import PayoutTable from "../PayoutTable/PayoutTable";
+// This component is the actual Poker game itself.
+
+import CurrentBet from "../CurrentBet/CurrentBet";
+import PayoutTable from "../PayoutTable/PayoutTable";
+import Container from "../Container/Container";
 import { useState } from "react";
 import "./Game.css";
-import { useGlobalStore } from "../../Store";
+import { useGameSessionStore, useGlobalStore } from "../../Stores";
 import Card from "../Card/Card";
 import PokerHand from "../PokerHand/PokerHand";
+import {
+  setHasJacksorBetter,
+  setHasAPair,
+  setHasTwoPairs,
+  setHasThreeOfAKind,
+  setIsAStraight,
+  setIsAFlush,
+  setHasFourOfAKind,
+  setIsARoyal,
+} from "../../functions/winChecks";
+import type { DeckCard, PokerHandCard } from "../../Stores";
 
 export default function Game() {
   const deckCards = useGlobalStore((store) => store.deckCards);
-  const pokerHand = useGlobalStore((store) => store.pokerHand);
-  const setpokerHand = useGlobalStore((store) => store.setPokerHand);
+  const { pokerHand, setPokerHand } = useGameSessionStore();
+  // These are block-scoped variables? What are those?
+  const winConditionsList = useGlobalStore((store) => store.winConditionsList);
+  //const setPlayerCredits = useGlobalStore((store) => store.setPlayerCredits);
+
+  //const activePlayer = useGameSessionStore((store) => store.activePlayer)!;
 
   const shuffledDeckCards = shuffle();
+
   const [currentDeckCards, setCurrentDeckCards] = useState(shuffledDeckCards);
-  const [dealCount, setDeadlCount] = useState(0);
+  const [dealCount, setDealCount] = useState(0);
+  const [currentBet, setCurrentBet] = useState<number>(1);
 
-  //const [currentBet, setCurrentBet] = useState<number>(1);
+  const { winCondition, setWinCondition } = useGameSessionStore();
 
-  // TO DO
-  // use const heldCards = pokerHand.filter...isHeld true blabla to filter cards that are "held" by the player
-  // use splice to insert new cards into player hand using the index of the cards that were removed
+  let realDealCount = dealCount;
 
-  /*   function handleClickBet() {
+  // TODO: Make it so that player can't bet midway in a round.
+  // TODO: Not allowed to bet more than credits available.
+  function handleClickBet() {
     if (currentBet < 5) {
       setCurrentBet(currentBet + 1);
     } else if (currentBet === 5) {
       setCurrentBet(1);
     }
-  } */
+  }
 
   // Shuffling code source: https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
   function shuffle() {
@@ -41,8 +61,50 @@ export default function Game() {
     return shuffled;
   }
 
+  function determineWinCondition(pokerHand: PokerHandCard[]) {
+    const cards: DeckCard[] = pokerHand.map((hand) => hand.card);
+
+    const hasJacksorBetter = setHasJacksorBetter(cards);
+    const hasAPair = setHasAPair(cards);
+    const hasTwoPairs = setHasTwoPairs(cards);
+    const hasThreeOfAKind = setHasThreeOfAKind(cards);
+    const isAStraight = setIsAStraight(cards);
+    const isAFlush = setIsAFlush(cards);
+    const hasFourOfAKind = setHasFourOfAKind(cards);
+    const isARoyal = setIsARoyal(cards);
+
+    let winConditionId = 0;
+
+    if (isARoyal && isAFlush) {
+      winConditionId = 1;
+    } else if (isAStraight && isAFlush) {
+      winConditionId = 2;
+    } else if (hasFourOfAKind) {
+      winConditionId = 3;
+    } else if (hasThreeOfAKind && hasAPair) {
+      winConditionId = 4;
+    } else if (isAFlush) {
+      winConditionId = 5;
+    } else if (isAStraight) {
+      winConditionId = 6;
+    } else if (hasThreeOfAKind) {
+      winConditionId = 7;
+    } else if (hasTwoPairs) {
+      winConditionId = 8;
+    } else if (hasJacksorBetter) {
+      winConditionId = 9;
+    }
+
+    const condition = winConditionsList.find(
+      (item) => item.id === winConditionId,
+    )!;
+
+    setWinCondition(condition);
+  }
+
   function handleClickDeal() {
-    debugger;
+    setDealCount(++realDealCount);
+
     if (pokerHand.length === 0) {
       const newCards = currentDeckCards.slice(0, 5);
       const remainingDeckCards = currentDeckCards.slice(5);
@@ -52,10 +114,9 @@ export default function Game() {
         isHeld: false,
       }));
 
-      setpokerHand(newPokerHand);
+      setPokerHand(newPokerHand);
       setCurrentDeckCards(remainingDeckCards);
-      setDeadlCount(dealCount + 1);
-      console.log(dealCount);
+      determineWinCondition(newPokerHand);
     } else {
       const newPokerHand = pokerHand.map((hand) => {
         if (hand.isHeld === false) {
@@ -73,19 +134,22 @@ export default function Game() {
         }
       });
 
-      setpokerHand(newPokerHand);
-      setDeadlCount(dealCount + 1);
-      console.log(dealCount);
+      setPokerHand(newPokerHand);
+      determineWinCondition(newPokerHand);
     }
   }
 
   return (
-    <section>
-      {/* <PayoutTable /> */}
-      {/*       <CurrentBet betValue={currentBet} onBetClick={handleClickBet} /> */}
-      <button type="button" onClick={handleClickDeal}>
-        Deal
-      </button>
+    <Container as="section">
+      <PayoutTable />
+      <div className="bet-deal-bar">
+        <CurrentBet betValue={currentBet} onBetClick={handleClickBet} />
+        <button type="button" onClick={handleClickDeal} id="deal-button">
+          Deal
+        </button>
+      </div>
+
+      {realDealCount >= 1 && <p>{winCondition.name}</p>}
       {pokerHand.length === 0 ? (
         <div className="poker-hand">
           <Card variant="back" />
@@ -97,6 +161,6 @@ export default function Game() {
       ) : (
         <PokerHand />
       )}
-    </section>
+    </Container>
   );
 }

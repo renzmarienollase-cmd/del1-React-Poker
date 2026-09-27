@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 
 export type Player = {
   id: number;
@@ -7,7 +7,7 @@ export type Player = {
   credits: number;
 };
 
-export type WinCombination = {
+export type WinCondition = {
   id: number;
   name: string;
   payout: number;
@@ -27,23 +27,26 @@ export type PokerHandCard = {
 // types for other objects should be put here for later use in Globals
 
 export type Globals = {
+  darkTheme: boolean;
   playerCount: number;
   players: Player[];
-  winCombination: WinCombination[];
+  winConditionsList: WinCondition[];
   deckCards: DeckCard[];
-  pokerHand: PokerHandCard[];
 
   addPlayer: (newPlayer: Player) => void;
   deletePlayer: (playerId: number) => void;
-  setPokerHand: (newHand: PokerHandCard[]) => void;
+  setPlayerCredits: (id: number, addCredits: number) => void;
+  setDarkTheme: () => void;
 };
 
 export const useGlobalStore = create<Globals>()(
   persist(
     (set) => ({
+      darkTheme: false,
       playerCount: 0,
       players: [],
-      winCombination: [
+      winConditionsList: [
+        { id: 0, name: "No win", payout: 0 },
         { id: 1, name: "Royal Flush", payout: 250 },
         { id: 2, name: "Straight Flush", payout: 50 },
         { id: 3, name: "Four of a Kind", payout: 25 },
@@ -51,7 +54,7 @@ export const useGlobalStore = create<Globals>()(
         { id: 5, name: "Flush", payout: 6 },
         { id: 6, name: "Straight", payout: 4 },
         { id: 7, name: "Three of a kind", payout: 3 },
-        { id: 8, name: "Two Pair", payout: 2 },
+        { id: 8, name: "Two Pairs", payout: 2 },
         { id: 9, name: "Jacks or Better", payout: 1 },
       ],
       deckCards: [
@@ -111,7 +114,6 @@ export const useGlobalStore = create<Globals>()(
         { id: 51, suite: "club", value: 12 },
         { id: 52, suite: "club", value: 13 },
       ],
-      pokerHand: [],
       addPlayer(newPlayer: Player) {
         set((state) => ({
           players: [...state.players, newPlayer],
@@ -124,14 +126,61 @@ export const useGlobalStore = create<Globals>()(
           playerCount: state.playerCount - 1,
         }));
       },
-      setPokerHand(newHand) {
+      setPlayerCredits: (id, addCredits) =>
+        set((state) => ({
+          players: state.players.map((player) =>
+            player.id === id
+              ? { ...player, credits: player.credits + addCredits }
+              : player,
+          ),
+        })),
+      setDarkTheme: () => set((state) => ({ darkTheme: !state.darkTheme })),
+    }),
+    {
+      name: "poker-loc-storage",
+    },
+  ),
+);
+
+type GameSessionStore = {
+  activePlayer: Player | null;
+  pokerHand: PokerHandCard[];
+  winCondition: WinCondition;
+
+  setActivePlayer: (player: Player | null) => void;
+  setPokerHand: (newHand: PokerHandCard[]) => void;
+  setWinCondition: (condition: WinCondition) => void;
+};
+
+export const useGameSessionStore = create<GameSessionStore>()(
+  persist(
+    (set) => ({
+      activePlayer: null,
+      pokerHand: [],
+      winCondition: {
+        id: 0,
+        name: "No win",
+        payout: 0,
+      },
+
+      setActivePlayer: (player) => {
+        set({
+          activePlayer: player,
+        });
+      },
+
+      setPokerHand: (newHand) => {
         set({
           pokerHand: newHand,
         });
       },
+      setWinCondition: (condition) => {
+        set({ winCondition: condition });
+      },
     }),
     {
-      name: "poker-storage",
+      name: "poker-game-store",
+      storage: createJSONStorage(() => sessionStorage),
     },
   ),
 );
