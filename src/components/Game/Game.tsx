@@ -19,24 +19,22 @@ import {
   setIsARoyal,
 } from "../../functions/winChecks";
 import type { DeckCard, PokerHandCard } from "../../Stores";
+import { shuffle } from "../../functions/shuffle";
 
 export default function Game() {
+  // Store states and actions
   const deckCards = useGlobalStore((store) => store.deckCards);
   const { pokerHand, setPokerHand } = useGameSessionStore();
-  // These are block-scoped variables? What are those?
   const winConditionsList = useGlobalStore((store) => store.winConditionsList);
+  const { winCondition, setWinCondition } = useGameSessionStore();
   //const setPlayerCoins = useGlobalStore((store) => store.setPlayerCoins);
-
   //const activePlayer = useGameSessionStore((store) => store.activePlayer)!;
 
-  const shuffledDeckCards = shuffle();
-
+  // Component states
+  const shuffledDeckCards = shuffle(deckCards);
   const [currentDeckCards, setCurrentDeckCards] = useState(shuffledDeckCards);
-  const [dealCount, setDealCount] = useState(0);
   const [currentBet, setCurrentBet] = useState<number>(1);
-
-  const { winCondition, setWinCondition } = useGameSessionStore();
-
+  const [dealCount, setDealCount] = useState(0);
   let realDealCount = dealCount;
 
   // TODO: Make it so that player can't bet midway in a round.
@@ -47,18 +45,6 @@ export default function Game() {
     } else if (currentBet === 5) {
       setCurrentBet(1);
     }
-  }
-
-  // Shuffling code source: https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
-  function shuffle() {
-    const shuffled = [...deckCards];
-
-    for (let i = shuffled.length - 1; i >= 1; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-
-    return shuffled;
   }
 
   function determineWinCondition(pokerHand: PokerHandCard[]) {

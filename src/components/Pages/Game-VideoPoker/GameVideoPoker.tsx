@@ -2,6 +2,7 @@
 
 import { useGameSessionStore } from "../../../Stores";
 import Game from "../../Game/Game";
+import TotalCoins from "../../TotalCoins/TotalCoins";
 import "./GameVideoPoker.css";
 
 export default function GameVideoPoker() {
@@ -12,7 +13,7 @@ export default function GameVideoPoker() {
       <h1>Sky Poker</h1>
       <div className="player-profile">
         <h2>Player: {activePlayer.name}</h2>
-        <h2></h2>
+        <TotalCoins />
       </div>
       <Game />
     </main>
