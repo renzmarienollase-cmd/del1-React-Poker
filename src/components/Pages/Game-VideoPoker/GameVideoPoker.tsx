@@ -1,13 +1,21 @@
+// This is the landing page for the actual game.
+
+import { useGameSessionStore } from "../../../Stores";
 import Game from "../../Game/Game";
+import TotalCoins from "../../TotalCoins/TotalCoins";
+import "./GameVideoPoker.css";
+
 export default function GameVideoPoker() {
-  const activePlayer = JSON.parse(
-    String(sessionStorage.getItem("activePlayer")),
-  );
+  const activePlayer = useGameSessionStore((store) => store.activePlayer)!;
 
   return (
-    <>
-      <h1>Let's play Video Poker, {activePlayer.name}!</h1>
+    <main className="game-page-container">
+      <h1>Sky Poker</h1>
+      <div className="player-profile">
+        <h2>Player: {activePlayer.name}</h2>
+        <TotalCoins id={activePlayer.id} />
+      </div>
       <Game />
-    </>
+    </main>
   );
 }

@@ -1,0 +1,8 @@
+.game-page-container {
+  height: auto;
+  text-align: center;
+  h1,
+  h2 {
+    margin-block: 0;
+  }
+}

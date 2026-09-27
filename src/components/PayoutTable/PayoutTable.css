@@ -1,6 +1,10 @@
+.payout-table-container {
+  overflow-x: auto;
+}
+
 th,
 td {
-  padding: 4px 8px;
+  padding: 0 8px;
 }
 
 td {
@@ -8,12 +12,19 @@ td {
 }
 
 table {
+  margin-block-start: 1rem;
   border-collapse: collapse;
   border: 1px solid white;
+  border-radius: 1rem;
+  border-collapse: separate;
   width: 100%;
 }
 
 th:not(:last-child),
 td:not(:last-child) {
   border-right: 2px solid white;
+}
+
+.win-combinations {
+  white-space: nowrap;
 }

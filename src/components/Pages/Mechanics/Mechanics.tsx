@@ -1,22 +1,24 @@
+// This component explains the game mechanics and how to win.
+
 import PayoutTable from "../../PayoutTable/PayoutTable";
 import "./Mechanics.css";
 
 export default function Mechanics() {
   return (
-    <section className="mechanics-page">
+    <main className="mechanics-page">
       <h1>How to play Video Poker</h1>
-      <ol>
+      <ol className="bg-glass">
         <li>
-          Place your bet. Your starting bet is 1 and can be increased using the
-          increase button. Maximum bet is 5.
+          Place your bet by clicking on the Bet (+) button. Your starting bet is
+          1 and can be increased using the increase button. Maximum bet is 5.
         </li>
         <li>
-          Start the round by clicking “Start”. The game will deal you your first
+          Start the round by clicking “Deal”. The game will deal you your first
           five cards face up.
         </li>
         <li>
-          Choose what to keep. You select which cards to “hold” and which to
-          discard.
+          Choose what to keep by clicking on the Hold button underneath each
+          card. You select which cards to “hold” and which to discard.
         </li>
         <li>
           Draw new cards. Hit “Draw,” and any cards you didn’t hold are replaced
@@ -30,7 +32,7 @@ export default function Mechanics() {
       </ol>
 
       <h2>How to Win</h2>
-      <p>
+      <p className="long-text bg-glass">
         The objective is simple: land a five-card combination that appears on
         the pay table once your draw is locked in. <br />
         A hand is officially over the moment your replacement cards land after
@@ -53,9 +55,17 @@ export default function Mechanics() {
         inspiration from:
       </p>
       <ul>
-        <li>https://gamerules.com/rules/video-poker/</li>
-        <li>https://www.freeslots.com/poker.htm</li>
+        <li>
+          <a href="https://gamerules.com/rules/video-poker/">
+            Game Rules: Video Poker
+          </a>
+        </li>
+        <li>
+          <a href="https://www.freeslots.com/poker.htm">
+            Free Slots: Video Poker
+          </a>
+        </li>
       </ul>
-    </section>
+    </main>
   );
 }

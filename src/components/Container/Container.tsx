@@ -1,3 +1,4 @@
+// A generic container inspired by the container component shown by Vegar Norman in class.
 import "./Container.css";
 
 export type ContainerProps = {

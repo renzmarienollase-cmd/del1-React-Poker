@@ -1,10 +1,13 @@
 .page-navigation {
+  margin: 0;
+
   ul {
+    padding-block-start: 0.5rem;
+    margin-block: 0;
     list-style: none;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 8rem;
     text-decoration: none;
   }
 
@@ -15,12 +18,12 @@
     padding: 0.5rem 1rem;
 
     &.active {
-      border: 2px solid red;
+      border: 2px solid var(--accent-primary);
     }
   }
 
   a:hover,
   a:focus {
-    background-color: red;
+    background-color: var(--accent-primary);
   }
 }

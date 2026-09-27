@@ -7,12 +7,17 @@ import GameVideoPoker from "./components/Pages/Game-VideoPoker/GameVideoPoker.ts
 import Mechanics from "./components/Pages/Mechanics/Mechanics.tsx";
 import PageNavigation from "./components/PageNavigation/PageNavigation.tsx";
 import Container from "./components/Container/Container.tsx";
+import ToggleTheme from "./components/ThemeToggle/ToggleTheme.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
-      <Container as="main">
-        <PageNavigation />
+      <Container as="div">
+        <div className="flex-row" id="nav-theme-bar">
+          <PageNavigation />
+          <ToggleTheme />
+        </div>
+
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/game-videopoker" element={<GameVideoPoker />} />
