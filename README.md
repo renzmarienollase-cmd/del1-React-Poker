@@ -29,30 +29,4 @@ Du skal lage en spillkortkomponent som representerer et enkelt kort. Denne kompo
 Du skal lage en type i TypeScript som representerer et spillkort, kalt PlayingCard. Typen skal inneholde hvilken farge og verdi kortet har. Spillkortkomponenten din skal ta i mot en verdi av denne typen som en prop når kortet lages.
 
 Dersom kortets bakside skal vises, kan du velge om du vil gjøre dette med en egen komponent, eller om du vil ha denne logikken som en del av den vanlige spillkortkomponenten. Du skal redegjøre for hvorfor du har valgt å gjøre det på den ene eller den andre måten.
-
-## Tilstand
-
-Du skal bruke Zustand som tilstandsverktøy i appen din. Du kan også bruke useState i komponenter der det gir mening, f.eks ved tilstand som bare gjelder internt i en komponent, men alle data som har med spillet å gjøre skal ligge i en Zustand-store. Denne store’n skal minst inneholde følgende data:
-
-- Data om kortstokken som brukes i denne runden av spillet. Når en runde i spillet startes, skal du gå ut fra at du har en fullstendig kortstokk med 52 kort. Denne kortstokken stokkes foran hver runde før kortene så deles ut.
-- Data om hvilke kort spilleren sitter med på hånda akkurat nå. Dette er kortene som vises for spilleren i appen.
-- Data om hvilke kort spilleren har kastet.
-- Hvilken spiller som faktisk spiller, og hvor mange mynter denne spilleren har akkurat nå. Du skal også lage en egen type med TypeScript, kalt Player, som du bruker her.
-
-Du må opprette actions som endrer dataene i store’n ut fra hva du faktisk trenger. Her legger vi ingen føringer, og du kan opprette så mange eller så få actions som du trenger. Du skal også lage alle nødvendige typer du trenger.
-
-Du skal kode appen din sånn at tilstanden persisteres i localStorage. Du må også sørge for at dersom en spiller navigerer seg til et annet skjermbilde midt i en runde, så skal ikke spilleren miste noen mynter eller måtte starte runden på nytt når de kommer tilbake til spillet igjen. Da skal den runden spilleren “gikk fra” fremdeles være aktiv. Det samme gjelder ved reload i nettleseren.
-
-## Utseende og design
-
-Vi legger i praksis ingen føringer for det grafiske designet av appen din, men du må tenke på følgende:
-
-- Appen skal kunne brukes uansett enhet og orientering av enheten, slik at den må fungere godt både på mobil og på vanlig desktopskjerm.
-- Ikke bruk mye tid på animasjoner og visuelle effekter. Dette kan du se på når kjernefunksjonaliteten til appen er klar, om du ønsker det, men det er “nice to have” mer enn det er “need to have”. Det samme gjelder bruk av lyd og andre effekter.
-- Du skal følge vanlige regler for universell utforming av appen din; spesielt skal det være mulig å bruke appen din med og uten mus/touch, f.eks ved å bare navigere med tastatur og tabbing.
-
-## Annet
-
-- Du skal bruke Git og GitHub aktivt når du lager appen. Du bør starte med å lage deg et repository, og deretter bruke branching slik du har lært når du lager ny funksjonalitet. Vi forventer å kunne gå gjennom Git-historikken din for å se hvordan appen har blitt utviklet over tid, og vi forventer riktig bruk av branching.
-- Vi ønsker at du modulariserer appen din og skiller ut funksjonalitet fra komponenter der det er hensiktsmessig. Komponentene dine bør være små og effektive med minst mulig kode; hvis en funksjon blir veldig mange linjer bør den kanskje leve i en egen fil og heller importeres. Vi forventer også at du kommenterer og forklarer hva hver enkelt funksjon i appen din gjør, ikke nødvendigvis steg for steg men i det minste dens hensikt, argumenter og returverdi.
 - Vær gjerne kreativ med utseende og funksjonalitet i appen din! Denne oppgaven beskriver minimumsløsningen, men du står fritt til å legge til andre funksjoner hvis du har tid til dette.
