@@ -1,3 +1,5 @@
+// A card component that renders a playing card in a hand.
+
 import { useGlobalStore, useGameSessionStore } from "../../Stores";
 import "./Card.css";
 
@@ -29,7 +31,7 @@ export default function Card({ id, variant, suite, value, isHeld }: CardProps) {
   }
 
   let cardImage = "";
-  if (darkTheme && suite === "Diamond") {
+  if (darkTheme && suite === "diamond") {
     cardImage = "Diamond_Dark.svg";
   } else if (darkTheme && suite === "heart") {
     cardImage = "Heart_Dark.svg";
@@ -37,7 +39,7 @@ export default function Card({ id, variant, suite, value, isHeld }: CardProps) {
     cardImage = "Spade_Dark.svg";
   } else if (darkTheme && suite === "club") {
     cardImage = "Club_Dark.svg";
-  } else if (!darkTheme && suite === "Diamond") {
+  } else if (!darkTheme && suite === "diamond") {
     cardImage = "Diamond_Light.svg";
   } else if (!darkTheme && suite === "heart") {
     cardImage = "Heart_Light.svg";

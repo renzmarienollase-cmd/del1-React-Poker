@@ -1,3 +1,5 @@
+// These are functions that check whether an array of cards contain a certain combination of card values.
+
 import type { DeckCard } from "../Stores";
 
 export function setHasJacksorBetter(cards: DeckCard[]) {

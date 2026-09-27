@@ -1,3 +1,5 @@
+// This component increases or decreases the player's bet.
+
 import "./CurrentBet.css";
 
 type CurrentBetProps = {

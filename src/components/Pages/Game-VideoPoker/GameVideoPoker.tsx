@@ -1,3 +1,5 @@
+// This is the landing page for the actual game.
+
 import { useGameSessionStore } from "../../../Stores";
 import Game from "../../Game/Game";
 import "./GameVideoPoker.css";

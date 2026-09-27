@@ -1,3 +1,5 @@
+// This button component toggles a dark and light theme styling for the game.
+
 import { useGlobalStore } from "../../Stores";
 import "./ToggleTheme.css";
 

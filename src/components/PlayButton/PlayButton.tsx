@@ -1,3 +1,5 @@
+// This component saves the current player as active player in the session store and navigates to the game page.
+
 import { useGameSessionStore, useGlobalStore } from "../../Stores";
 import "./PlayButton.css";
 import { useNavigate } from "react-router";
@@ -9,7 +11,6 @@ export default function PlayButton({ id }: { id: number }) {
 
   function handleClick() {
     const activePlayer = players.find((player) => player.id === id)!;
-    console.log(activePlayer);
 
     setActivePlayer(activePlayer);
 

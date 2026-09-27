@@ -1,3 +1,4 @@
+// This page navigates through the whole web app.
 import { NavLink } from "react-router";
 import "./PageNavigation.css";
 

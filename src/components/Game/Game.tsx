@@ -1,3 +1,5 @@
+// This component is the actual Poker game itself.
+
 import CurrentBet from "../CurrentBet/CurrentBet";
 import PayoutTable from "../PayoutTable/PayoutTable";
 import Container from "../Container/Container";
@@ -36,7 +38,6 @@ export default function Game() {
   const { winCondition, setWinCondition } = useGameSessionStore();
 
   let realDealCount = dealCount;
-  console.log("realDealCount initial", realDealCount);
 
   // TODO: Make it so that player can't bet midway in a round.
   // TODO: Not allowed to bet more than credits available.

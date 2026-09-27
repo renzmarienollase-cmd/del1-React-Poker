@@ -1,3 +1,5 @@
+// This component displays the five cards a player is dealt/draws.
+
 import { useGameSessionStore } from "../../Stores";
 import "./PokerHand.css";
 import Card from "../Card/Card";
