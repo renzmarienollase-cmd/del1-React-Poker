@@ -25,7 +25,7 @@ export default function Game() {
   const { pokerHand, setPokerHand } = useGameSessionStore();
   // These are block-scoped variables? What are those?
   const winConditionsList = useGlobalStore((store) => store.winConditionsList);
-  //const setPlayerCredits = useGlobalStore((store) => store.setPlayerCredits);
+  //const setPlayerCoins = useGlobalStore((store) => store.setPlayerCoins);
 
   //const activePlayer = useGameSessionStore((store) => store.activePlayer)!;
 
@@ -40,7 +40,7 @@ export default function Game() {
   let realDealCount = dealCount;
 
   // TODO: Make it so that player can't bet midway in a round.
-  // TODO: Not allowed to bet more than credits available.
+  // TODO: Not allowed to bet more than coins available.
   function handleClickBet() {
     if (currentBet < 5) {
       setCurrentBet(currentBet + 1);

@@ -12,7 +12,7 @@ export default function GameVideoPoker() {
       <h1>Sky Poker</h1>
       <div className="player-profile">
         <h2>Player: {activePlayer.name}</h2>
-        <h2>Credits: {activePlayer.credits}</h2>
+        <h2></h2>
       </div>
       <Game />
     </main>
