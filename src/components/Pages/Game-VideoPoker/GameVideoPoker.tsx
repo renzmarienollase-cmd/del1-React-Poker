@@ -13,7 +13,7 @@ export default function GameVideoPoker() {
       <h1>Sky Poker</h1>
       <div className="player-profile">
         <h2>Player: {activePlayer.name}</h2>
-        <TotalCoins />
+        <TotalCoins id={activePlayer.id} />
       </div>
       <Game />
     </main>

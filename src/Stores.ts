@@ -159,7 +159,7 @@ export const useGameSessionStore = create<GameSessionStore>()(
       pokerHand: [],
       winCondition: {
         id: 0,
-        name: "No win",
+        name: "",
         payout: 0,
       },
 

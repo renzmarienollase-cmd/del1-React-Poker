@@ -20,6 +20,8 @@ import {
 } from "../../functions/winChecks";
 import type { DeckCard, PokerHandCard } from "../../Stores";
 import { shuffle } from "../../functions/shuffle";
+import { useRef } from "react";
+import TotalCoins from "../TotalCoins/TotalCoins";
 
 export default function Game() {
   // Store states and actions
@@ -27,8 +29,8 @@ export default function Game() {
   const { pokerHand, setPokerHand } = useGameSessionStore();
   const winConditionsList = useGlobalStore((store) => store.winConditionsList);
   const { winCondition, setWinCondition } = useGameSessionStore();
-  //const setPlayerCoins = useGlobalStore((store) => store.setPlayerCoins);
-  //const activePlayer = useGameSessionStore((store) => store.activePlayer)!;
+  const setPlayerCoins = useGlobalStore((store) => store.setPlayerCoins);
+  const activePlayer = useGameSessionStore((store) => store.activePlayer)!;
 
   // Component states
   const shuffledDeckCards = shuffle(deckCards);
@@ -36,6 +38,16 @@ export default function Game() {
   const [currentBet, setCurrentBet] = useState<number>(1);
   const [dealCount, setDealCount] = useState(0);
   let realDealCount = dealCount;
+
+  // GAME OVER
+  const [gameOver, setGameOver] = useState(false);
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
+  const openDialog = () => {
+    if (dialogRef.current) dialogRef.current.showModal();
+  };
+  const closeDialog = () => {
+    if (dialogRef.current) dialogRef.current.close();
+  };
 
   // TODO: Make it so that player can't bet midway in a round.
   // TODO: Not allowed to bet more than coins available.
@@ -88,8 +100,45 @@ export default function Game() {
     setWinCondition(condition);
   }
 
+  function handleGameOver() {
+    // There's a flaw in the flow of logic here but I don't have time to fix it.
+
+    if (realDealCount === 1) {
+      const newCoins = winCondition.payout * currentBet - currentBet;
+
+      setPlayerCoins(activePlayer.id, newCoins);
+      setGameOver(!gameOver);
+    }
+
+    showGameOver();
+  }
+
+  function showGameOver() {
+    if (gameOver === true) {
+      openDialog();
+    }
+  }
+
+  function resetGame() {
+    setCurrentBet(1);
+    setCurrentDeckCards(deckCards);
+    setPokerHand([]);
+    setWinCondition({
+      id: 0,
+      name: "",
+      payout: 0,
+    });
+    closeDialog();
+  }
+
   function handleClickDeal() {
-    setDealCount(++realDealCount);
+    console.log("realDealCount on top of handleClickDeal", realDealCount);
+
+    if (realDealCount < 2) {
+      setDealCount(++realDealCount);
+    } else if (realDealCount === 2) {
+      setDealCount(0);
+    }
 
     if (pokerHand.length === 0) {
       const newCards = currentDeckCards.slice(0, 5);
@@ -123,6 +172,8 @@ export default function Game() {
       setPokerHand(newPokerHand);
       determineWinCondition(newPokerHand);
     }
+
+    handleGameOver();
   }
 
   return (
@@ -147,6 +198,16 @@ export default function Game() {
       ) : (
         <PokerHand />
       )}
+
+      <dialog ref={dialogRef} className="dialog-game-over">
+        <span>GAME OVER</span>
+        <br />
+        <span>Your new Total </span>
+        <TotalCoins id={activePlayer.id} />
+        <button type="button" onClick={resetGame} className="primary-button">
+          Okay
+        </button>
+      </dialog>
     </Container>
   );
 }
