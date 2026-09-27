@@ -4,7 +4,7 @@ import { persist, createJSONStorage } from "zustand/middleware";
 export type Player = {
   id: number;
   name: string;
-  credits: number;
+  coins: number;
 };
 
 export type WinCondition = {
@@ -35,7 +35,7 @@ export type Globals = {
 
   addPlayer: (newPlayer: Player) => void;
   deletePlayer: (playerId: number) => void;
-  setPlayerCredits: (id: number, addCredits: number) => void;
+  setPlayerCoins: (id: number, addCoins: number) => void;
   setDarkTheme: () => void;
 };
 
@@ -126,11 +126,11 @@ export const useGlobalStore = create<Globals>()(
           playerCount: state.playerCount - 1,
         }));
       },
-      setPlayerCredits: (id, addCredits) =>
+      setPlayerCoins: (id, addCoins) =>
         set((state) => ({
           players: state.players.map((player) =>
             player.id === id
-              ? { ...player, credits: player.credits + addCredits }
+              ? { ...player, coins: player.coins + addCoins }
               : player,
           ),
         })),
@@ -159,7 +159,7 @@ export const useGameSessionStore = create<GameSessionStore>()(
       pokerHand: [],
       winCondition: {
         id: 0,
-        name: "No win",
+        name: "",
         payout: 0,
       },
 

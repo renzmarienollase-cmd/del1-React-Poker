@@ -11,7 +11,7 @@ export default function CreatePlayerForm() {
     const newPlayer = {
       id: playerCount + 1,
       name: String(formData.get("player-name")),
-      credits: 100,
+      coins: 100,
     };
 
     addPlayer(newPlayer);

@@ -4,7 +4,7 @@ import type { DeckCard } from "../Stores";
 
 export function setHasJacksorBetter(cards: DeckCard[]) {
   for (let i = 0; i < cards.length; i++) {
-    if (cards[i].value >= 11) {
+    if (cards[i].value >= 11 || cards[i].value >= 1) {
       return true;
     }
   }
