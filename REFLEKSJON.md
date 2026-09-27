@@ -1,8 +1,22 @@
 # THE GAME ON SUBMISSION
 
-Right now, the game can only play one round as the logic in handling the deal count and when to trigger the handleGameOver functions is flawed.
+Right now, the game can only be played for one round as the logic that handles the deal count and when to trigger the handleGameOver functions is flawed.
 
-Given more time, I would find a more effective order of calling on functions so that the game can be played more than one round.
+Given more time, I would find a more effective order of calling on functions so that the game can be played more than one round. A direction I think would be useful is creating a nextDeal state management that determines whether the next deal should deal the player new cards or whether to initiate game over and reset the game.
+
+## Accessibility
+
+The game satisfies accessibility requirements for contrast, hierarchy, and accessibility with a keyboard. However, I would have liked to test the game with a screenreader to ensure that there are no missing contexts in the game and the game has a clear structure even without visual cues.
+
+I used Web Accessibility Evaluation Tool to check for accessibility. However, an additional accessibility checking tool like pa11y which we used last semester could be helpful.
+
+## Store Management
+
+I encountered the problem on one player's poker hand showing up on another player's "game." I also did not have the time to learn more about resetting to an initial state so I decided therefore, to create a Zustand store that saves a player's game in session storage. This way, the game can reset every time the window is closed. This seemed to be a good MVP solution for the lack of an initial state in Zustand.
+
+## Game Over
+
+The current game over solution relies on the okay button on the Game Over dialog. The button manually resets states by calling on "set" functions.
 
 ## Lobby
 
