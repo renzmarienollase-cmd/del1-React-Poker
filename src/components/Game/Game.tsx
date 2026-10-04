@@ -18,7 +18,7 @@ import {
   setHasFourOfAKind,
   setIsARoyal,
 } from "../../functions/winChecks";
-import type { DeckCard, PokerHandCard } from "../../Stores";
+import type { PlayingCard, PokerHandCard } from "../../Stores";
 import { shuffle } from "../../functions/shuffle";
 import { useRef } from "react";
 import TotalCoins from "../TotalCoins/TotalCoins";
@@ -31,22 +31,23 @@ export default function Game() {
   const { winCondition, setWinCondition } = useGameSessionStore();
   const setPlayerCoins = useGlobalStore((store) => store.setPlayerCoins);
   const activePlayer = useGameSessionStore((store) => store.activePlayer)!;
+  const { currentDeckCards, setCurrentDeckCards, setDiscardedDeckCards } =
+    useGameSessionStore();
 
   // Component states
-  const shuffledDeckCards = shuffle(deckCards);
-  const [currentDeckCards, setCurrentDeckCards] = useState(shuffledDeckCards);
+  const shuffledPlayingCards = shuffle(deckCards);
   const [currentBet, setCurrentBet] = useState<number>(1);
   const [dealCount, setDealCount] = useState(0);
   let realDealCount = dealCount;
 
   // GAME OVER
   const [gameOver, setGameOver] = useState(false);
-  const dialogRef = useRef<HTMLDialogElement | null>(null);
+  const dialogGameOver = useRef<HTMLDialogElement | null>(null);
   const openDialog = () => {
-    if (dialogRef.current) dialogRef.current.showModal();
+    if (dialogGameOver.current) dialogGameOver.current.showModal();
   };
   const closeDialog = () => {
-    if (dialogRef.current) dialogRef.current.close();
+    if (dialogGameOver.current) dialogGameOver.current.close();
   };
 
   // TODO: Make it so that player can't bet midway in a round.
@@ -60,7 +61,7 @@ export default function Game() {
   }
 
   function determineWinCondition(pokerHand: PokerHandCard[]) {
-    const cards: DeckCard[] = pokerHand.map((hand) => hand.card);
+    const cards: PlayingCard[] = pokerHand.map((hand) => hand.card);
 
     const hasJacksorBetter = setHasJacksorBetter(cards);
     const hasAPair = setHasAPair(cards);
@@ -121,7 +122,7 @@ export default function Game() {
 
   function resetGame() {
     setCurrentBet(1);
-    setCurrentDeckCards(deckCards);
+    setCurrentDeckCards(shuffledPlayingCards);
     setPokerHand([]);
     setWinCondition({
       id: 0,
@@ -132,8 +133,6 @@ export default function Game() {
   }
 
   function handleClickDeal() {
-    console.log("realDealCount on top of handleClickDeal", realDealCount);
-
     if (realDealCount < 2) {
       setDealCount(++realDealCount);
     } else if (realDealCount === 2) {
@@ -141,17 +140,16 @@ export default function Game() {
     }
 
     if (pokerHand.length === 0) {
-      const newCards = currentDeckCards.slice(0, 5);
-      const remainingDeckCards = currentDeckCards.slice(5);
-
+      const newCards = shuffledPlayingCards.slice(0, 5);
       const newPokerHand = newCards.map((card) => ({
         card: card,
         isHeld: false,
       }));
-
       setPokerHand(newPokerHand);
-      setCurrentDeckCards(remainingDeckCards);
       determineWinCondition(newPokerHand);
+
+      const newDeck = shuffledPlayingCards.slice(5);
+      setCurrentDeckCards(newDeck);
     } else {
       const newPokerHand = pokerHand.map((hand) => {
         if (hand.isHeld === false) {
@@ -160,9 +158,12 @@ export default function Game() {
             isHeld: false,
           };
 
-          const remainingDeckCards = currentDeckCards.slice(1);
+          const newDeck = currentDeckCards.slice(1);
+          setCurrentDeckCards(newDeck);
 
-          setCurrentDeckCards(remainingDeckCards);
+          const discardedDeckCard = hand.card;
+          setDiscardedDeckCards(discardedDeckCard);
+
           return newCard;
         } else {
           return hand;
@@ -186,7 +187,9 @@ export default function Game() {
         </button>
       </div>
 
-      {realDealCount >= 1 && <p>{winCondition.name}</p>}
+      {realDealCount >= 1 && winCondition.id !== 0 && (
+        <p>{winCondition.name}</p>
+      )}
       {pokerHand.length === 0 ? (
         <div className="poker-hand">
           <Card variant="back" />
@@ -199,7 +202,7 @@ export default function Game() {
         <PokerHand />
       )}
 
-      <dialog ref={dialogRef} className="dialog-game-over">
+      <dialog ref={dialogGameOver} className="dialog-game-over">
         <span>GAME OVER</span>
         <br />
         <span>Your new Total </span>

@@ -1,8 +1,8 @@
 // These are functions that check whether an array of cards contain a certain combination of card values.
 
-import type { DeckCard } from "../Stores";
+import type { PlayingCard } from "../Stores";
 
-export function setHasJacksorBetter(cards: DeckCard[]) {
+export function setHasJacksorBetter(cards: PlayingCard[]) {
   for (let i = 0; i < cards.length; i++) {
     if (cards[i].value >= 11 || cards[i].value >= 1) {
       return true;
@@ -12,7 +12,7 @@ export function setHasJacksorBetter(cards: DeckCard[]) {
   return false;
 }
 
-export function setHasAPair(cards: DeckCard[]) {
+export function setHasAPair(cards: PlayingCard[]) {
   let hits = 0;
 
   for (let i = 0; i < cards.length; i++) {
@@ -33,7 +33,7 @@ export function setHasAPair(cards: DeckCard[]) {
   return false;
 }
 
-export function setHasTwoPairs(cards: DeckCard[]) {
+export function setHasTwoPairs(cards: PlayingCard[]) {
   let hits = 0;
 
   for (let i = 0; i < cards.length; i++) {
@@ -55,7 +55,7 @@ export function setHasTwoPairs(cards: DeckCard[]) {
 }
 
 // Only works for five cards or fewer.
-export function setHasThreeOfAKind(cards: DeckCard[]) {
+export function setHasThreeOfAKind(cards: PlayingCard[]) {
   let hits = 0;
 
   for (let i = 0; i < cards.length; i++) {
@@ -72,7 +72,7 @@ export function setHasThreeOfAKind(cards: DeckCard[]) {
   return false;
 }
 
-export function setIsAStraight(cards: DeckCard[]) {
+export function setIsAStraight(cards: PlayingCard[]) {
   const sortedCards = cards.sort((a, b) => a.value - b.value);
 
   if (
@@ -87,7 +87,7 @@ export function setIsAStraight(cards: DeckCard[]) {
   return false;
 }
 
-export function setIsAFlush(cards: DeckCard[]) {
+export function setIsAFlush(cards: PlayingCard[]) {
   if (cards.every((card) => card.suite === cards[0].suite)) {
     return true;
   }
@@ -95,7 +95,7 @@ export function setIsAFlush(cards: DeckCard[]) {
   return false;
 }
 
-export function setHasFourOfAKind(cards: DeckCard[]) {
+export function setHasFourOfAKind(cards: PlayingCard[]) {
   let hits = 0;
 
   for (let i = 0; i < cards.length; i++) {
@@ -112,7 +112,7 @@ export function setHasFourOfAKind(cards: DeckCard[]) {
   return false;
 }
 
-export function setIsARoyal(cards: DeckCard[]) {
+export function setIsARoyal(cards: PlayingCard[]) {
   const sortedCards = cards.sort((a, b) => a.value - b.value);
 
   if (

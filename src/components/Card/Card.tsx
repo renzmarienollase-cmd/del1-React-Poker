@@ -66,6 +66,7 @@ export default function Card({ id, variant, suite, value, isHeld }: CardProps) {
       ) : (
         <span className="status">Held</span>
       )}
+
       {variant !== "front" ? (
         <div className={`deck-card ${variant} bg-glass`}>
           {!darkTheme ? (
@@ -77,7 +78,7 @@ export default function Card({ id, variant, suite, value, isHeld }: CardProps) {
       ) : (
         <div className={`deck-card ${variant}`}>
           <span className="card-value">{cardName}</span>
-          <img src={`/${cardImage}`} alt={`icon: ${suite}s`} />
+          <img src={`/${cardImage}`} alt={`${suite}s suite icon`} />
         </div>
       )}
 
