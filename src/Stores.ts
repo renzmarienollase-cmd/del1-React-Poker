@@ -13,14 +13,14 @@ export type WinCondition = {
   payout: number;
 };
 
-export type DeckCard = {
+export type PlayingCard = {
   id: number;
   suite: string;
   value: number;
 };
 
 export type PokerHandCard = {
-  card: DeckCard;
+  card: PlayingCard;
   isHeld: boolean;
 };
 
@@ -31,7 +31,7 @@ export type Globals = {
   playerCount: number;
   players: Player[];
   winConditionsList: WinCondition[];
-  deckCards: DeckCard[];
+  deckCards: PlayingCard[];
 
   addPlayer: (newPlayer: Player) => void;
   deletePlayer: (playerId: number) => void;
@@ -145,10 +145,14 @@ export const useGlobalStore = create<Globals>()(
 type GameSessionStore = {
   activePlayer: Player | null;
   pokerHand: PokerHandCard[];
+  currentDeckCards: PlayingCard[];
+  discardedDeckCards: PlayingCard[];
   winCondition: WinCondition;
 
   setActivePlayer: (player: Player | null) => void;
   setPokerHand: (newHand: PokerHandCard[]) => void;
+  setCurrentDeckCards: (newDeck: PlayingCard[]) => void;
+  setDiscardedDeckCards: (discardedCard: PlayingCard) => void;
   setWinCondition: (condition: WinCondition) => void;
 };
 
@@ -157,6 +161,8 @@ export const useGameSessionStore = create<GameSessionStore>()(
     (set) => ({
       activePlayer: null,
       pokerHand: [],
+      currentDeckCards: [],
+      discardedDeckCards: [],
       winCondition: {
         id: 0,
         name: "",
@@ -173,6 +179,16 @@ export const useGameSessionStore = create<GameSessionStore>()(
         set({
           pokerHand: newHand,
         });
+      },
+      setCurrentDeckCards: (newDeck) => {
+        set({
+          currentDeckCards: newDeck,
+        });
+      },
+      setDiscardedDeckCards: (discardedCard) => {
+        set((state) => ({
+          discardedDeckCards: [...state.discardedDeckCards, discardedCard],
+        }));
       },
       setWinCondition: (condition) => {
         set({ winCondition: condition });

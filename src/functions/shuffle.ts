@@ -1,7 +1,7 @@
-import type { DeckCard } from "../Stores";
+import type { PlayingCard } from "../Stores";
 
 // Shuffling code source: https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
-export function shuffle(cards: DeckCard[]) {
+export function shuffle(cards: PlayingCard[]) {
   const shuffled = cards;
 
   for (let i = shuffled.length - 1; i >= 1; i--) {
