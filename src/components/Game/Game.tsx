@@ -2,12 +2,11 @@
 
 import CurrentBet from "../CurrentBet/CurrentBet";
 import PayoutTable from "../PayoutTable/PayoutTable";
-import Container from "../Container/Container";
+import PlayerHand from "../PlayerHand/PlayerHand";
 import { useState } from "react";
 import "./Game.css";
 import { useGameSessionStore, useGlobalStore } from "../../Stores";
 import Card from "../Card/Card";
-import PokerHand from "../PokerHand/PokerHand";
 import {
   setHasJacksorBetter,
   setHasAPair,
@@ -18,7 +17,7 @@ import {
   setHasFourOfAKind,
   setIsARoyal,
 } from "../../functions/winChecks";
-import type { PlayingCard, PokerHandCard } from "../../Stores";
+import type { PlayingCard, PlayerHandCard } from "../../Stores";
 import { shuffle } from "../../functions/shuffle";
 import { useRef } from "react";
 import TotalCoins from "../TotalCoins/TotalCoins";
@@ -26,9 +25,9 @@ import TotalCoins from "../TotalCoins/TotalCoins";
 export default function Game() {
   // Store states and actions
   const deckCards = useGlobalStore((store) => store.deckCards);
+  const { playerHand, setPlayerHand } = useGameSessionStore();
+  const pokerHandsList = useGlobalStore((store) => store.pokerHandsList);
   const { pokerHand, setPokerHand } = useGameSessionStore();
-  const winConditionsList = useGlobalStore((store) => store.winConditionsList);
-  const { winCondition, setWinCondition } = useGameSessionStore();
   const setPlayerCoins = useGlobalStore((store) => store.setPlayerCoins);
   const activePlayer = useGameSessionStore((store) => store.activePlayer)!;
   const { currentDeckCards, setCurrentDeckCards, setDiscardedDeckCards } =
@@ -60,8 +59,8 @@ export default function Game() {
     }
   }
 
-  function determineWinCondition(pokerHand: PokerHandCard[]) {
-    const cards: PlayingCard[] = pokerHand.map((hand) => hand.card);
+  function determinePokerHand(playerHand: PlayerHandCard[]) {
+    const cards: PlayingCard[] = playerHand.map((hand) => hand.card);
 
     const hasJacksorBetter = setHasJacksorBetter(cards);
     const hasAPair = setHasAPair(cards);
@@ -72,40 +71,38 @@ export default function Game() {
     const hasFourOfAKind = setHasFourOfAKind(cards);
     const isARoyal = setIsARoyal(cards);
 
-    let winConditionId = 0;
+    let pokerHandId = 0;
 
     if (isARoyal && isAFlush) {
-      winConditionId = 1;
+      pokerHandId = 1;
     } else if (isAStraight && isAFlush) {
-      winConditionId = 2;
+      pokerHandId = 2;
     } else if (hasFourOfAKind) {
-      winConditionId = 3;
+      pokerHandId = 3;
     } else if (hasThreeOfAKind && hasAPair) {
-      winConditionId = 4;
+      pokerHandId = 4;
     } else if (isAFlush) {
-      winConditionId = 5;
+      pokerHandId = 5;
     } else if (isAStraight) {
-      winConditionId = 6;
+      pokerHandId = 6;
     } else if (hasThreeOfAKind) {
-      winConditionId = 7;
+      pokerHandId = 7;
     } else if (hasTwoPairs) {
-      winConditionId = 8;
+      pokerHandId = 8;
     } else if (hasJacksorBetter) {
-      winConditionId = 9;
+      pokerHandId = 9;
     }
 
-    const condition = winConditionsList.find(
-      (item) => item.id === winConditionId,
-    )!;
+    const condition = pokerHandsList.find((item) => item.id === pokerHandId)!;
 
-    setWinCondition(condition);
+    setPokerHand(condition);
   }
 
   function handleGameOver() {
     // There's a flaw in the flow of logic here but I don't have time to fix it.
 
     if (realDealCount === 1) {
-      const newCoins = winCondition.payout * currentBet - currentBet;
+      const newCoins = pokerHand.payout * currentBet - currentBet;
 
       setPlayerCoins(activePlayer.id, newCoins);
       setGameOver(!gameOver);
@@ -123,8 +120,8 @@ export default function Game() {
   function resetGame() {
     setCurrentBet(1);
     setCurrentDeckCards(shuffledPlayingCards);
-    setPokerHand([]);
-    setWinCondition({
+    setPlayerHand([]);
+    setPokerHand({
       id: 0,
       name: "",
       payout: 0,
@@ -139,19 +136,19 @@ export default function Game() {
       setDealCount(0);
     }
 
-    if (pokerHand.length === 0) {
+    if (playerHand.length === 0) {
       const newCards = shuffledPlayingCards.slice(0, 5);
-      const newPokerHand = newCards.map((card) => ({
+      const newPlayerHand = newCards.map((card) => ({
         card: card,
         isHeld: false,
       }));
-      setPokerHand(newPokerHand);
-      determineWinCondition(newPokerHand);
+      setPlayerHand(newPlayerHand);
+      determinePokerHand(newPlayerHand);
 
       const newDeck = shuffledPlayingCards.slice(5);
       setCurrentDeckCards(newDeck);
     } else {
-      const newPokerHand = pokerHand.map((hand) => {
+      const newPlayerHand = playerHand.map((hand) => {
         if (hand.isHeld === false) {
           const newCard = {
             card: currentDeckCards.splice(0, 1)[0],
@@ -170,15 +167,15 @@ export default function Game() {
         }
       });
 
-      setPokerHand(newPokerHand);
-      determineWinCondition(newPokerHand);
+      setPlayerHand(newPlayerHand);
+      determinePokerHand(newPlayerHand);
     }
 
     handleGameOver();
   }
 
   return (
-    <Container as="section">
+    <section className="game-container">
       <PayoutTable />
       <div className="bet-deal-bar">
         <CurrentBet betValue={currentBet} onBetClick={handleClickBet} />
@@ -187,11 +184,9 @@ export default function Game() {
         </button>
       </div>
 
-      {realDealCount >= 1 && winCondition.id !== 0 && (
-        <p>{winCondition.name}</p>
-      )}
-      {pokerHand.length === 0 ? (
-        <div className="poker-hand">
+      {realDealCount >= 1 && pokerHand.id !== 0 && <p>{pokerHand.name}</p>}
+      {playerHand.length === 0 ? (
+        <div className="player-hand">
           <Card variant="back" />
           <Card variant="back" />
           <Card variant="back" />
@@ -199,7 +194,7 @@ export default function Game() {
           <Card variant="back" />
         </div>
       ) : (
-        <PokerHand />
+        <PlayerHand />
       )}
 
       <dialog ref={dialogGameOver} className="dialog-game-over">
@@ -211,6 +206,6 @@ export default function Game() {
           Okay
         </button>
       </dialog>
-    </Container>
+    </section>
   );
 }

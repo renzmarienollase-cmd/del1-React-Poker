@@ -7,7 +7,7 @@ export type Player = {
   coins: number;
 };
 
-export type WinCondition = {
+export type PokerHand = {
   id: number;
   name: string;
   payout: number;
@@ -19,7 +19,7 @@ export type PlayingCard = {
   value: number;
 };
 
-export type PokerHandCard = {
+export type PlayerHandCard = {
   card: PlayingCard;
   isHeld: boolean;
 };
@@ -30,7 +30,7 @@ export type Globals = {
   darkTheme: boolean;
   playerCount: number;
   players: Player[];
-  winConditionsList: WinCondition[];
+  pokerHandsList: PokerHand[];
   deckCards: PlayingCard[];
 
   addPlayer: (newPlayer: Player) => void;
@@ -45,7 +45,7 @@ export const useGlobalStore = create<Globals>()(
       darkTheme: false,
       playerCount: 0,
       players: [],
-      winConditionsList: [
+      pokerHandsList: [
         { id: 0, name: "No win", payout: 0 },
         { id: 1, name: "Royal Flush", payout: 250 },
         { id: 2, name: "Straight Flush", payout: 50 },
@@ -144,26 +144,26 @@ export const useGlobalStore = create<Globals>()(
 
 type GameSessionStore = {
   activePlayer: Player | null;
-  pokerHand: PokerHandCard[];
+  playerHand: PlayerHandCard[];
   currentDeckCards: PlayingCard[];
   discardedDeckCards: PlayingCard[];
-  winCondition: WinCondition;
+  pokerHand: PokerHand;
 
   setActivePlayer: (player: Player | null) => void;
-  setPokerHand: (newHand: PokerHandCard[]) => void;
+  setPlayerHand: (newHand: PlayerHandCard[]) => void;
   setCurrentDeckCards: (newDeck: PlayingCard[]) => void;
   setDiscardedDeckCards: (discardedCard: PlayingCard) => void;
-  setWinCondition: (condition: WinCondition) => void;
+  setPokerHand: (condition: PokerHand) => void;
 };
 
 export const useGameSessionStore = create<GameSessionStore>()(
   persist(
     (set) => ({
       activePlayer: null,
-      pokerHand: [],
+      playerHand: [],
       currentDeckCards: [],
       discardedDeckCards: [],
-      winCondition: {
+      pokerHand: {
         id: 0,
         name: "",
         payout: 0,
@@ -175,9 +175,9 @@ export const useGameSessionStore = create<GameSessionStore>()(
         });
       },
 
-      setPokerHand: (newHand) => {
+      setPlayerHand: (newHand) => {
         set({
-          pokerHand: newHand,
+          playerHand: newHand,
         });
       },
       setCurrentDeckCards: (newDeck) => {
@@ -190,8 +190,8 @@ export const useGameSessionStore = create<GameSessionStore>()(
           discardedDeckCards: [...state.discardedDeckCards, discardedCard],
         }));
       },
-      setWinCondition: (condition) => {
-        set({ winCondition: condition });
+      setPokerHand: (condition) => {
+        set({ pokerHand: condition });
       },
     }),
     {

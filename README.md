@@ -19,7 +19,7 @@ Du skal utforme alle delene av grensesnittet ditt som gjenbrukbare React-kompone
 - En tabell med oversikt over gevinster og utbetalinger kalt <PayoutTable>
 - En teller der spillerens nåværende antall mynter vises, kalt <TotalCoins>
 - En visning av spillerens nåværende innsats, kalt <CurrentBet>
-- En visning av hvilken hånd brukeren sitter med akkurat nå (f.eks to par, tre like…). Denne visningen skal bruke en type kalt PokerHand som inneholder alle de forskjellige mulige pokerhendene man kan få i spillet.
+- En visning av hvilken hånd brukeren sitter med akkurat nå (f.eks to par, tre like…). Denne visningen skal bruke en type kalt PlayerHand som inneholder alle de forskjellige mulige pokerhendene man kan få i spillet.
 - En komponent for hele “spillbrettet” kalt <Game> der alle komponenter samles
 
 ## Spillkortkomponenten
@@ -29,4 +29,5 @@ Du skal lage en spillkortkomponent som representerer et enkelt kort. Denne kompo
 Du skal lage en type i TypeScript som representerer et spillkort, kalt PlayingCard. Typen skal inneholde hvilken farge og verdi kortet har. Spillkortkomponenten din skal ta i mot en verdi av denne typen som en prop når kortet lages.
 
 Dersom kortets bakside skal vises, kan du velge om du vil gjøre dette med en egen komponent, eller om du vil ha denne logikken som en del av den vanlige spillkortkomponenten. Du skal redegjøre for hvorfor du har valgt å gjøre det på den ene eller den andre måten.
+
 - Vær gjerne kreativ med utseende og funksjonalitet i appen din! Denne oppgaven beskriver minimumsløsningen, men du står fritt til å legge til andre funksjoner hvis du har tid til dette.

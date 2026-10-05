@@ -13,8 +13,8 @@ type CardProps = {
 
 export default function Card({ id, variant, suite, value, isHeld }: CardProps) {
   const darkTheme = useGlobalStore((store) => store.darkTheme);
-  const pokerHand = useGameSessionStore((store) => store.pokerHand);
-  const setPokerHand = useGameSessionStore((store) => store.setPokerHand);
+  const playerHand = useGameSessionStore((store) => store.playerHand);
+  const setPlayerHand = useGameSessionStore((store) => store.setPlayerHand);
 
   let cardName = "";
 
@@ -50,13 +50,13 @@ export default function Card({ id, variant, suite, value, isHeld }: CardProps) {
   }
 
   function toggleHeld() {
-    const newPokerHand = pokerHand.map((handCard) =>
+    const newPlayerHand = playerHand.map((handCard) =>
       handCard.card.id === id
         ? { ...handCard, isHeld: !handCard.isHeld }
         : handCard,
     );
 
-    setPokerHand(newPokerHand);
+    setPlayerHand(newPlayerHand);
   }
 
   return (

@@ -3,7 +3,7 @@
 import { useGlobalStore } from "../../Stores";
 import "./PayoutTable.css";
 export default function PayoutTable() {
-  const winConditions = useGlobalStore((store) => store.winConditionsList);
+  const pokerHands = useGlobalStore((store) => store.pokerHandsList);
 
   return (
     <div className="payout-table-container">
@@ -32,7 +32,7 @@ export default function PayoutTable() {
           </tr>
         </thead>
         <tbody>
-          {winConditions.map((combination) => (
+          {pokerHands.map((combination) => (
             <tr key={combination.id}>
               <th scope="row" className="win-combinations">
                 {combination.name}

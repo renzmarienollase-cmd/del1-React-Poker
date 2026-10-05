@@ -1,14 +1,14 @@
 // This component displays the five cards a player is dealt/draws.
 
 import { useGameSessionStore } from "../../Stores";
-import "./PokerHand.css";
+import "./PlayerHand.css";
 import Card from "../Card/Card";
 
-export default function PokerHand() {
-  const pokerHand = useGameSessionStore((store) => store.pokerHand);
+export default function PlayerHand() {
+  const playerHand = useGameSessionStore((store) => store.playerHand);
   return (
-    <div className="poker-hand">
-      {pokerHand.map((hand) => (
+    <div className="player-hand">
+      {playerHand.map((hand) => (
         <Card
           key={hand.card.id}
           id={hand.card.id}
