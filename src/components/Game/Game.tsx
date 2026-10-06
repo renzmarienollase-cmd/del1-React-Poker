@@ -21,8 +21,11 @@ import type { PlayingCard, PlayerHandCard } from "../../Stores";
 import { shuffle } from "../../functions/shuffle";
 import { useRef } from "react";
 import TotalCoins from "../TotalCoins/TotalCoins";
+import PokerHandDisplay from "../PokerHand/PokerHandDisplay";
 
 export default function Game() {
+  /* VARIABLES */
+
   // Store states and actions
   const deckCards = useGlobalStore((store) => store.deckCards);
   const { playerHand, setPlayerHand } = useGameSessionStore();
@@ -36,21 +39,19 @@ export default function Game() {
   // Component states
   const shuffledPlayingCards = shuffle(deckCards);
   const [currentBet, setCurrentBet] = useState<number>(1);
-  const [dealCount, setDealCount] = useState(0);
-  let realDealCount = dealCount;
+  const [dealCount, setDealCount] = useState<number>(0);
 
   // GAME OVER
-  const [gameOver, setGameOver] = useState(false);
   const dialogGameOver = useRef<HTMLDialogElement | null>(null);
-  const openDialog = () => {
+  const showDialogGameOver = () => {
     if (dialogGameOver.current) dialogGameOver.current.showModal();
   };
-  const closeDialog = () => {
+  const closeDialogGameOver = () => {
     if (dialogGameOver.current) dialogGameOver.current.close();
   };
 
-  // TODO: Make it so that player can't bet midway in a round.
-  // TODO: Not allowed to bet more than coins available.
+  /* FUNCTIONS */
+
   function handleClickBet() {
     if (currentBet < 5) {
       setCurrentBet(currentBet + 1);
@@ -58,6 +59,8 @@ export default function Game() {
       setCurrentBet(1);
     }
   }
+
+  // Possible bug on detecting Full House
 
   function determinePokerHand(playerHand: PlayerHandCard[]) {
     const cards: PlayingCard[] = playerHand.map((hand) => hand.card);
@@ -98,43 +101,34 @@ export default function Game() {
     setPokerHand(condition);
   }
 
-  function handleGameOver() {
-    // There's a flaw in the flow of logic here but I don't have time to fix it.
-
-    if (realDealCount === 1) {
-      const newCoins = pokerHand.payout * currentBet - currentBet;
-
+  function updatePlayerCoins() {
+    if (pokerHand.payout === 0) {
+      const newCoins = currentBet;
       setPlayerCoins(activePlayer.id, newCoins);
-      setGameOver(!gameOver);
-    }
-
-    showGameOver();
-  }
-
-  function showGameOver() {
-    if (gameOver === true) {
-      openDialog();
+    } else if (pokerHand.payout > 0) {
+      const newCoins = pokerHand.payout * currentBet;
+      setPlayerCoins(activePlayer.id, newCoins);
     }
   }
 
   function resetGame() {
+    const reshuffledPlayingCards = shuffle(deckCards);
+
+    setCurrentDeckCards(reshuffledPlayingCards);
+    setDealCount(0);
     setCurrentBet(1);
-    setCurrentDeckCards(shuffledPlayingCards);
     setPlayerHand([]);
     setPokerHand({
       id: 0,
       name: "",
       payout: 0,
     });
-    closeDialog();
+    closeDialogGameOver();
   }
 
   function handleClickDeal() {
-    if (realDealCount < 2) {
-      setDealCount(++realDealCount);
-    } else if (realDealCount === 2) {
-      setDealCount(0);
-    }
+    setDealCount(dealCount + 1);
+    let nextDeal = dealCount + 1;
 
     if (playerHand.length === 0) {
       const newCards = shuffledPlayingCards.slice(0, 5);
@@ -142,6 +136,7 @@ export default function Game() {
         card: card,
         isHeld: false,
       }));
+
       setPlayerHand(newPlayerHand);
       determinePokerHand(newPlayerHand);
 
@@ -157,9 +152,7 @@ export default function Game() {
 
           const newDeck = currentDeckCards.slice(1);
           setCurrentDeckCards(newDeck);
-
-          const discardedDeckCard = hand.card;
-          setDiscardedDeckCards(discardedDeckCard);
+          setDiscardedDeckCards(hand.card);
 
           return newCard;
         } else {
@@ -171,12 +164,16 @@ export default function Game() {
       determinePokerHand(newPlayerHand);
     }
 
-    handleGameOver();
+    if (nextDeal == 2) {
+      updatePlayerCoins();
+      showDialogGameOver();
+    }
   }
 
   return (
     <section className="game-container">
       <PayoutTable />
+
       <div className="bet-deal-bar">
         <CurrentBet betValue={currentBet} onBetClick={handleClickBet} />
         <button type="button" onClick={handleClickDeal} id="deal-button">
@@ -184,7 +181,8 @@ export default function Game() {
         </button>
       </div>
 
-      {realDealCount >= 1 && pokerHand.id !== 0 && <p>{pokerHand.name}</p>}
+      <PokerHandDisplay />
+
       {playerHand.length === 0 ? (
         <div className="player-hand">
           <Card variant="back" />
@@ -197,7 +195,7 @@ export default function Game() {
         <PlayerHand />
       )}
 
-      <dialog ref={dialogGameOver} className="dialog-game-over">
+      <dialog ref={dialogGameOver} closedby="none" className="dialog-game-over">
         <span>GAME OVER</span>
         <br />
         <span>Your new Total </span>

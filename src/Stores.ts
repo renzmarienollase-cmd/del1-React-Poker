@@ -126,11 +126,11 @@ export const useGlobalStore = create<Globals>()(
           playerCount: state.playerCount - 1,
         }));
       },
-      setPlayerCoins: (id, addCoins) =>
+      setPlayerCoins: (id, coins) =>
         set((state) => ({
           players: state.players.map((player) =>
             player.id === id
-              ? { ...player, coins: player.coins + addCoins }
+              ? { ...player, coins: player.coins + coins }
               : player,
           ),
         })),
