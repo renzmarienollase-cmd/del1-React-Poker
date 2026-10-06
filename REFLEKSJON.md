@@ -1,4 +1,22 @@
-# THE GAME ON SUBMISSION
+# ONE MORE TIME 06/10/2026
+
+## useEffect or no useEffect? That is the question.
+
+Dealing with delayed dealCount lead to bugs on determining when the game was over.
+Code online said to use useEffect, but reading documentation made me realize that probably wasn't the best case.
+Fix: Simplifying the logic with nextDeal and determining the game was over through this count.
+
+## Do I really need a hook? Or will simple logic work?
+
+The biggest hurdle of this project for me was assuming that everything needed to be managed through useState. This lead to unnecessary state management and confusing myself on which states actions needed to be tied to/components should be re-rendered.
+
+## Mobile vs Desktop
+
+On my previous projects, I only thought about preventing defaults such as keydown to prevent dismissal of a dialog. However, I realized, that on mobile, users don't necessarily do a keydown. They could simply tap outside of the modal or swipe. This made me realize that I should not only focus on keyboard and desktop focused events, but also events that can happen on a mobile browser.
+
+#####################################
+
+# THE GAME ON SUBMISSION 28/09/2026
 
 Right now, the game can only be played for one round as the logic that handles the deal count and when to trigger the handleGameOver functions is flawed.
 
