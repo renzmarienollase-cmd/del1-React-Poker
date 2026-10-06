@@ -60,6 +60,8 @@ export default function Game() {
     }
   }
 
+  // Possible bug on detecting Full House
+
   function determinePokerHand(playerHand: PlayerHandCard[]) {
     const cards: PlayingCard[] = playerHand.map((hand) => hand.card);
 
