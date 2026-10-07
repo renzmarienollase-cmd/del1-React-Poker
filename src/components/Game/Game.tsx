@@ -103,7 +103,7 @@ export default function Game() {
 
   function updatePlayerCoins() {
     if (pokerHand.payout === 0) {
-      const newCoins = currentBet;
+      const newCoins = -currentBet;
       setPlayerCoins(activePlayer.id, newCoins);
     } else if (pokerHand.payout > 0) {
       const newCoins = pokerHand.payout * currentBet;
