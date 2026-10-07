@@ -32,18 +32,21 @@ export default function PayoutTable() {
           </tr>
         </thead>
         <tbody>
-          {pokerHands.map((combination) => (
-            <tr key={combination.id}>
-              <th scope="row" className="win-combinations">
-                {combination.name}
-              </th>
-              <td>{combination.payout}</td>
-              <td>{combination.payout * 2}</td>
-              <td>{combination.payout * 3}</td>
-              <td>{combination.payout * 4}</td>
-              <td>{combination.payout * 5}</td>
-            </tr>
-          ))}
+          {pokerHands.map(
+            (combination) =>
+              combination.id !== 0 && (
+                <tr key={combination.id}>
+                  <th scope="row" className="win-combinations">
+                    {combination.name}
+                  </th>
+                  <td>{combination.payout}</td>
+                  <td>{combination.payout * 2}</td>
+                  <td>{combination.payout * 3}</td>
+                  <td>{combination.payout * 4}</td>
+                  <td>{combination.payout * 5}</td>
+                </tr>
+              ),
+          )}
         </tbody>
       </table>
     </div>
