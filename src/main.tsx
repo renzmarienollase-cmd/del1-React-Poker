@@ -20,7 +20,10 @@ createRoot(document.getElementById("root")!).render(
 
         <Routes>
           <Route path="/" element={<App />} />
-          <Route path="/game-videopoker" element={<GameVideoPoker />} />
+          <Route
+            path="/game-videopoker/:playerId"
+            element={<GameVideoPoker />}
+          />
           <Route path="/mechanics" element={<Mechanics />} />
         </Routes>
       </Container>

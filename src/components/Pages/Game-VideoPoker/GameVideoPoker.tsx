@@ -1,12 +1,17 @@
 // This is the landing page for the actual game.
 
-import { useGameSessionStore } from "../../../Stores";
+import { useParams } from "react-router";
+import { getPlayerStore, type GameSessionStore } from "../../../Stores";
 import Game from "../../Game/Game";
 import TotalCoins from "../../TotalCoins/TotalCoins";
 import "./GameVideoPoker.css";
 
 export default function GameVideoPoker() {
-  const activePlayer = useGameSessionStore((store) => store.activePlayer)!;
+  const { playerId } = useParams();
+  const usePlayerStore = getPlayerStore(Number(playerId));
+  const activePlayer = usePlayerStore(
+    (store: GameSessionStore) => store.activePlayer,
+  )!;
 
   return (
     <main className="game-page-container">

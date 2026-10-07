@@ -1,11 +1,14 @@
 // This component displays the five cards a player is dealt/draws.
 
-import { useGameSessionStore } from "../../Stores";
 import "./PlayerHand.css";
 import Card from "../Card/Card";
+import type { PlayerHandCard } from "../../Stores";
 
-export default function PlayerHand() {
-  const playerHand = useGameSessionStore((store) => store.playerHand);
+export default function PlayerHand({
+  playerHand,
+}: {
+  playerHand: PlayerHandCard[];
+}) {
   return (
     <div className="player-hand">
       {playerHand.map((hand) => (
