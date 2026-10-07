@@ -13,7 +13,7 @@ export default function PlayButton({ id }: { id: number }) {
   return (
     <NavLink
       className="secondary-button"
-      to={`/game-videopoker/${id}`}
+      to={`/game-videopoker/#${id}`}
       onClick={() => setActivePlayer(sessionPlayer)}
     >
       Play

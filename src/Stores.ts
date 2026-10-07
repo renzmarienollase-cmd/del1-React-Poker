@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import type { StateStorage } from "zustand/middleware";
 
 export type Player = {
   id: number;
@@ -23,8 +24,6 @@ export type PlayerHandCard = {
   card: PlayingCard;
   isHeld: boolean;
 };
-
-// types for other objects should be put here for later use in Globals
 
 export type Globals = {
   darkTheme: boolean;
@@ -142,6 +141,26 @@ export const useGlobalStore = create<Globals>()(
   ),
 );
 
+// Session storage using hash
+
+const hashStorage: StateStorage = {
+  getItem: (key): string => {
+    const sessionParams = new URLSearchParams(location.hash.slice(1));
+    const sessionPlayer = sessionParams.get(key) ?? "";
+    return JSON.parse(sessionPlayer);
+  },
+  setItem: (key, newSessionPlayer): void => {
+    const sessionParams = new URLSearchParams(location.hash.slice(1));
+    sessionParams.set(key, JSON.stringify(newSessionPlayer));
+    location.hash = sessionParams.toString();
+  },
+  removeItem: (key): void => {
+    const sessionParams = new URLSearchParams(location.hash.slice(1));
+    sessionParams.delete(key);
+    location.hash = sessionParams.toString();
+  },
+};
+
 type GameSessionStore = {
   activePlayer: Player | null;
   playerHand: PlayerHandCard[];
@@ -195,8 +214,8 @@ export const useGameSessionStore = create<GameSessionStore>()(
       },
     }),
     {
-      name: "poker-game-store",
-      storage: createJSONStorage(() => sessionStorage),
+      name: "poker-player-session",
+      storage: createJSONStorage(() => hashStorage),
     },
   ),
 );
