@@ -3,9 +3,9 @@
 import CurrentBet from "../CurrentBet/CurrentBet";
 import PayoutTable from "../PayoutTable/PayoutTable";
 import PlayerHand from "../PlayerHand/PlayerHand";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "./Game.css";
-import { useGameSessionStore, useGlobalStore } from "../../Stores";
+import { useGlobalStore, getPlayerStore } from "../../Stores";
 import Card from "../Card/Card";
 import {
   setHasJacksorBetter,
@@ -17,24 +17,34 @@ import {
   setHasFourOfAKind,
   setIsARoyal,
 } from "../../functions/winChecks";
-import type { PlayingCard, PlayerHandCard } from "../../Stores";
+import type {
+  PlayingCard,
+  PlayerHandCard,
+  GameSessionStore,
+} from "../../Stores";
 import { shuffle } from "../../functions/shuffle";
-import { useRef } from "react";
 import TotalCoins from "../TotalCoins/TotalCoins";
 import PokerHandDisplay from "../PokerHand/PokerHandDisplay";
+import { useParams } from "react-router";
 
 export default function Game() {
   /* VARIABLES */
+  // URL Params
+  const { playerId } = useParams();
 
   // Store states and actions
   const deckCards = useGlobalStore((store) => store.deckCards);
-  const { playerHand, setPlayerHand } = useGameSessionStore();
   const pokerHandsList = useGlobalStore((store) => store.pokerHandsList);
-  const { pokerHand, setPokerHand } = useGameSessionStore();
   const setPlayerCoins = useGlobalStore((store) => store.setPlayerCoins);
-  const activePlayer = useGameSessionStore((store) => store.activePlayer)!;
+
+  const usePlayerStore = getPlayerStore(Number(playerId));
+  const activePlayer = usePlayerStore(
+    (store: GameSessionStore) => store.activePlayer,
+  )!;
   const { currentDeckCards, setCurrentDeckCards, setDiscardedDeckCards } =
-    useGameSessionStore();
+    usePlayerStore();
+  const { playerHand, setPlayerHand } = usePlayerStore();
+  const { pokerHand, setPokerHand } = usePlayerStore();
 
   // Component states
   const shuffledPlayingCards = shuffle(deckCards);
@@ -130,6 +140,8 @@ export default function Game() {
     setDealCount(dealCount + 1);
     let nextDeal = dealCount + 1;
 
+    console.log(dealCount, nextDeal);
+
     if (playerHand.length === 0) {
       const newCards = shuffledPlayingCards.slice(0, 5);
       const newPlayerHand = newCards.map((card) => ({
@@ -143,7 +155,7 @@ export default function Game() {
       const newDeck = shuffledPlayingCards.slice(5);
       setCurrentDeckCards(newDeck);
     } else {
-      const newPlayerHand = playerHand.map((hand) => {
+      const newPlayerHand = playerHand.map((hand: PlayerHandCard) => {
         if (hand.isHeld === false) {
           const newCard = {
             card: currentDeckCards.splice(0, 1)[0],
@@ -181,7 +193,7 @@ export default function Game() {
         </button>
       </div>
 
-      <PokerHandDisplay />
+      <PokerHandDisplay pokerHand={pokerHand} />
 
       {playerHand.length === 0 ? (
         <div className="player-hand">
@@ -192,7 +204,7 @@ export default function Game() {
           <Card variant="back" />
         </div>
       ) : (
-        <PlayerHand />
+        <PlayerHand playerHand={playerHand} />
       )}
 
       <dialog ref={dialogGameOver} closedby="none" className="dialog-game-over">

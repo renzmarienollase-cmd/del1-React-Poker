@@ -142,7 +142,7 @@ export const useGlobalStore = create<Globals>()(
   ),
 );
 
-type GameSessionStore = {
+export type GameSessionStore = {
   activePlayer: Player | null;
   playerHand: PlayerHandCard[];
   currentDeckCards: PlayingCard[];
@@ -156,47 +156,59 @@ type GameSessionStore = {
   setPokerHand: (condition: PokerHand) => void;
 };
 
-export const useGameSessionStore = create<GameSessionStore>()(
-  persist(
-    (set) => ({
-      activePlayer: null,
-      playerHand: [],
-      currentDeckCards: [],
-      discardedDeckCards: [],
-      pokerHand: {
-        id: 0,
-        name: "",
-        payout: 0,
-      },
+// Unique Session stores for each player
 
-      setActivePlayer: (player) => {
-        set({
-          activePlayer: player,
-        });
-      },
+const playerSessionStores = new Map();
 
-      setPlayerHand: (newHand) => {
-        set({
-          playerHand: newHand,
-        });
-      },
-      setCurrentDeckCards: (newDeck) => {
-        set({
-          currentDeckCards: newDeck,
-        });
-      },
-      setDiscardedDeckCards: (discardedCard) => {
-        set((state) => ({
-          discardedDeckCards: [...state.discardedDeckCards, discardedCard],
-        }));
-      },
-      setPokerHand: (condition) => {
-        set({ pokerHand: condition });
-      },
-    }),
-    {
-      name: "poker-game-store",
-      storage: createJSONStorage(() => sessionStorage),
-    },
-  ),
-);
+export function getPlayerStore(playerId: number) {
+  if (!playerSessionStores.has(playerId)) {
+    const store = create<GameSessionStore>()(
+      persist(
+        (set) => ({
+          activePlayer: null,
+          playerHand: [],
+          currentDeckCards: [],
+          discardedDeckCards: [],
+          pokerHand: {
+            id: 0,
+            name: "",
+            payout: 0,
+          },
+
+          setActivePlayer: (player) => {
+            set({
+              activePlayer: player,
+            });
+          },
+
+          setPlayerHand: (newHand) => {
+            set({
+              playerHand: newHand,
+            });
+          },
+          setCurrentDeckCards: (newDeck) => {
+            set({
+              currentDeckCards: newDeck,
+            });
+          },
+          setDiscardedDeckCards: (discardedCard) => {
+            set((state) => ({
+              discardedDeckCards: [...state.discardedDeckCards, discardedCard],
+            }));
+          },
+          setPokerHand: (condition) => {
+            set({ pokerHand: condition });
+          },
+        }),
+        {
+          name: "poker-game-store",
+          storage: createJSONStorage(() => sessionStorage),
+        },
+      ),
+    );
+
+    playerSessionStores.set(playerId, store);
+  }
+
+  return playerSessionStores.get(playerId);
+}

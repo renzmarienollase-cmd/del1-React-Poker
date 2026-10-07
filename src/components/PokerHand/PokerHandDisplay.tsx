@@ -1,8 +1,11 @@
-import { useGameSessionStore } from "../../Stores";
 import "./PokerHandDisplay.css";
+import { type PokerHand } from "../../Stores";
 
-export default function PokerHandDisplay() {
-  const pokerHand = useGameSessionStore((store) => store.pokerHand);
+export default function PokerHandDisplay({
+  pokerHand,
+}: {
+  pokerHand: PokerHand;
+}) {
   return (
     <div>
       {pokerHand.id !== 0 && (
