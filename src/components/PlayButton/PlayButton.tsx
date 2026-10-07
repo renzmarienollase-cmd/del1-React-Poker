@@ -2,12 +2,15 @@
 
 import "./PlayButton.css";
 import { NavLink } from "react-router";
-import { useGlobalStore } from "../../Stores";
-import { useGameSessionStore } from "../../Stores";
+import { useGlobalStore, type GameSessionStore } from "../../Stores";
+import { getPlayerStore } from "../../Stores";
 
 export default function PlayButton({ id }: { id: number }) {
   const players = useGlobalStore((store) => store.players);
-  const setActivePlayer = useGameSessionStore((store) => store.setActivePlayer);
+  const usePlayerStore = getPlayerStore(Number(id));
+  const setActivePlayer = usePlayerStore(
+    (store: GameSessionStore) => store.setActivePlayer,
+  );
   const sessionPlayer = players.find((player) => player.id === id)!;
 
   return (

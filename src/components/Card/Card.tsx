@@ -1,7 +1,13 @@
 // A card component that renders a playing card in a hand.
 
-import { useGlobalStore, useGameSessionStore } from "../../Stores";
+import {
+  useGlobalStore,
+  type GameSessionStore,
+  getPlayerStore,
+  type PlayerHandCard,
+} from "../../Stores";
 import "./Card.css";
+import { useParams } from "react-router";
 
 type CardProps = {
   variant: "front" | "back";
@@ -13,8 +19,14 @@ type CardProps = {
 
 export default function Card({ id, variant, suite, value, isHeld }: CardProps) {
   const darkTheme = useGlobalStore((store) => store.darkTheme);
-  const playerHand = useGameSessionStore((store) => store.playerHand);
-  const setPlayerHand = useGameSessionStore((store) => store.setPlayerHand);
+  const { playerId } = useParams();
+  const usePlayerStore = getPlayerStore(Number(playerId));
+  const playerHand = usePlayerStore(
+    (store: GameSessionStore) => store.playerHand,
+  );
+  const setPlayerHand = usePlayerStore(
+    (store: GameSessionStore) => store.setPlayerHand,
+  );
 
   let cardName = "";
 
@@ -50,7 +62,7 @@ export default function Card({ id, variant, suite, value, isHeld }: CardProps) {
   }
 
   function toggleHeld() {
-    const newPlayerHand = playerHand.map((handCard) =>
+    const newPlayerHand = playerHand.map((handCard: PlayerHandCard) =>
       handCard.card.id === id
         ? { ...handCard, isHeld: !handCard.isHeld }
         : handCard,
