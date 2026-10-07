@@ -123,7 +123,6 @@ export const useGlobalStore = create<Globals>()(
       deletePlayer(playerId) {
         set((state) => ({
           players: state.players.filter((player) => player.id !== playerId),
-          playerCount: state.playerCount - 1,
         }));
       },
       setPlayerCoins: (id, coins) =>
