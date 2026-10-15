@@ -53,7 +53,7 @@
 }
 
 .bg-held {
-  background: var(--accent-secondary 0.36);
+  background: rgba(var(--accent-secondary), 0.36);
   backdrop-filter: blur(10px) saturate(180%);
   border: 1px solid var(--accent-secondary);
 }
